@@ -1,29 +1,32 @@
 package com.example.Backend.Model;
 
+import java.util.HashMap;
+
 public class User {
+    private Integer id;
     private String name;
     private String emailAddress;
-    private Email[] sentEmails;
-    private Email[] receivedEmails;
-    private Email[] allEmails;
-    private User[] contacts;
+    private EmailsList sentEmails;
+    private EmailsList receivedEmails;
+    private EmailsList allEmails;
+    private UsersList contacts;
 
-    String getName() {
+    public String getName() {
         return name;
     }
-    String getEmailAddress() {
+    public String getEmailAddress() {
         return emailAddress;
     }
-    Email[] getSentEmails() {
+    public EmailsList getSentEmails() {
         return sentEmails;
     }
-    Email[] getReceivedEmails() {
+    public EmailsList getReceivedEmails() {
         return receivedEmails;
     }
-    Email[] getAllEmails() {
+    public EmailsList getAllEmails() {
         return allEmails;
     }
-    User[] getContacts() {
+    public UsersList getContacts() {
         return contacts;
     }
 }
