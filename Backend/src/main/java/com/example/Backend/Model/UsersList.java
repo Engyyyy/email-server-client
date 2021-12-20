@@ -7,9 +7,19 @@ public class UsersList {
     HashMap<Integer, User> listOfUsers;
 
     private UsersList() {
-
+        listOfUsers = new HashMap<>();
     }
-    public UsersList getInstance() {
+    public static UsersList getInstance() {
+        if(usersList == null) {
+            usersList = new UsersList();
+        }
         return usersList;
     }
+    public void addUser(User user) {
+        listOfUsers.put(user.getId(), user);
+    }
+    public User getUser(Integer id) {
+        return listOfUsers.get(id);
+    }
+
 }

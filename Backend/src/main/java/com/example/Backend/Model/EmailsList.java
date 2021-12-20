@@ -3,13 +3,15 @@ package com.example.Backend.Model;
 import java.util.HashMap;
 
 public class EmailsList {
-    private static EmailsList emailsList;
-    HashMap<Integer, Email> listOfEmails;
-
-    private EmailsList() {
-
+    private HashMap<Integer, Email> listOfEmails;
+    public EmailsList() {
+        listOfEmails = new HashMap<>();
     }
-    public EmailsList getInstance() {
-        return emailsList;
+
+    public void addEmail(Email email) {
+        listOfEmails.put(email.getHeader().getId(), email);
+    }
+    public Email getEmail(Integer id) {
+        return listOfEmails.get(id);
     }
 }

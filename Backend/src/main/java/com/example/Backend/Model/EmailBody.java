@@ -10,4 +10,9 @@ public class EmailBody {
     public Attachment[] getAttachments() {
         return attachments;
     }
+
+//    public EmailBody(String content, Attachment[] attachments){
+//        this.content = content;
+//        this.attachments = attachments;
+//    }
 }

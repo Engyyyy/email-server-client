@@ -10,4 +10,9 @@ public class Email {
     public EmailBody getBody() {
         return body;
     }
+
+//    public Email(EmailHeader header, EmailBody body) {
+//        this.header = header;
+//        this.body = body;
+//    }
 }
