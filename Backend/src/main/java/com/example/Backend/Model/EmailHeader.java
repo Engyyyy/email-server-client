@@ -5,9 +5,9 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class EmailHeader {
-    private Integer id;
-    private UUID senderId;
-    private UUID[] receiversIds;
+    private UUID id;
+    private String senderEmailAddress;
+    private String[] receiversEmailAddresses;
     private String subject;
     private Timestamp timestamp;
     private boolean priority;
@@ -21,16 +21,16 @@ public class EmailHeader {
 //        this.priority = priority;
 //    }
 
-    public UUID getSenderId() {
-        return senderId;
+    public UUID getId() {
+        return id;
     }
 
-    public UUID getReceiversId() {
-        return senderId;
+    public String getSenderEmailAddress() {
+        return senderEmailAddress;
     }
 
-    public UUID[] getReceivers() {
-        return receiversIds;
+    public String[] getReceiversEmailAddresses() {
+        return receiversEmailAddresses;
     }
 
     public String getSubject() {
@@ -39,10 +39,6 @@ public class EmailHeader {
 
     public Timestamp getTimestamp() {
         return timestamp;
-    }
-
-    public int getId() {
-        return id;
     }
 
     boolean isPriority() {

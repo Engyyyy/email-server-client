@@ -14,19 +14,27 @@ public class LoginService {
     public LoginService(){
         usersList = new UsersList();
     }
-    public UUID Login(String emailAddress) throws Exception {
-        UUID id = getCurrentUser(emailAddress);
-        if (id == null) throw new Exception();
-        return id;
+    public User login(String emailAddress, String password) throws Exception {
+        User registeredUser = usersList.getUser(emailAddress);
+        if(registeredUser == null || !authentication(registeredUser.getPassword(), password)) {
+            throw new Exception();
+        }
+        else {
+            return registeredUser;
+        }
     }
 
-    private UUID getCurrentUser(String emailAddress) {
-        for (HashMap.Entry<UUID, User> user : usersList.getListOfUsers().entrySet()) {
-            System.out.println(user.getKey() + "  :  " + user.getValue());
-            if (user.getValue().getEmailAddress().equals(emailAddress)) {
-                return user.getValue().getId();
-            }
-        }
-        return null;
+    private boolean authentication(String registeredPassword, String password) {
+        return registeredPassword.equals(password);
     }
+
+//    private UUID getCurrentUser(String emailAddress) {
+//        for (HashMap.Entry<UUID, User> user : usersList.getListOfUsers().entrySet()) {
+//            System.out.println(user.getKey() + "  :  " + user.getValue());
+//            if (user.getValue().getEmailAddress().equals(emailAddress)) {
+//                return user.getValue().getId();
+//            }
+//        }
+//        return null;
+//    }
 }

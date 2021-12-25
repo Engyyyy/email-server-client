@@ -17,14 +17,14 @@ public class EmailService {
 
 
     public void sendEmail(Email email) {
-        if (Utility.validateUser(email.getHeader().getSenderId())) {
-            User sender = usersList.getUser(email.getHeader().getSenderId());
+        if (Utility.validateUser(email.getHeader().getSenderEmailAddress())) {
+            User sender = usersList.getUser(email.getHeader().getSenderEmailAddress());
             sender.getAllEmails().addEmail(email);
             sender.getSentEmails().addEmail(email);
-            UUID[] receiversIds = email.getHeader().getReceivers();
-            for (int i = 0; i < receiversIds.length; i++) {
-                User receiver = usersList.getUser(receiversIds[i]);
-                if (Utility.validateUser(receiver.getId())) {
+            String[] receiversEmailAddresses = email.getHeader().getReceiversEmailAddresses();
+            for (int i = 0; i < receiversEmailAddresses.length; i++) {
+                User receiver = usersList.getUser(receiversEmailAddresses[i]);
+                if (Utility.validateUser(receiver.getEmailAddress())) {
                     receiver.getAllEmails().addEmail(email);
                     receiver.getReceivedEmails().addEmail(email);
                 }

@@ -14,15 +14,13 @@ public class SignUpServices {
         usersList = new UsersList();
     }
 
-    public UUID SignUp(String emailAddress, String userName) throws Exception {
-        if (!checkUniqueness(emailAddress)) throw new Exception();
-        User newUser = new User(userName, emailAddress);
+    public void signUp(User newUser) throws Exception {
+        if (!checkUniqueness(newUser.getEmailAddress())) throw new Exception();
         usersList.addUser(newUser);
-        return newUser.getId();
     }
 
     private boolean checkUniqueness(String emailAddress) {
-        for (HashMap.Entry<UUID, User> user : usersList.getListOfUsers().entrySet()) {
+        for (HashMap.Entry<String, User> user : usersList.getListOfUsers().entrySet()) {
             System.out.println(user.getKey() + "  :  " + user.getValue());
             if (user.getValue().getEmailAddress().equals(emailAddress)) {
                 return false;

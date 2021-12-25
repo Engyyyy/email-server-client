@@ -1,9 +1,10 @@
 package com.example.Backend.Model;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class EmailsList {
-    private HashMap<Integer, Email> listOfEmails;
+    private HashMap<UUID, Email> listOfEmails;
     public EmailsList() {
         listOfEmails = new HashMap<>();
     }
@@ -11,10 +12,10 @@ public class EmailsList {
     public void addEmail(Email email) {
         listOfEmails.put(email.getHeader().getId(), email);
     }
-    public Email getEmail(Integer id) {
+    public Email getEmail(UUID id) {
         return listOfEmails.get(id);
     }
-    public void deleteEmail(int Id){
+    public void deleteEmail(UUID Id){
         listOfEmails.remove(Id);
     }
 }

@@ -8,17 +8,17 @@ import java.util.UUID;
 @Component
 public class UsersList {
 
-    private static HashMap<UUID, User> listOfUsers=  new HashMap<>();
+    private static HashMap<String, User> listOfUsers=  new HashMap<>();
 
 
     public void addUser(User user) {
-        listOfUsers.put(user.getId(), user);
+        listOfUsers.put(user.getEmailAddress(), user);
     }
-    public User getUser(UUID id) {
-        return listOfUsers.get(id);
+    public User getUser(String emailAddress) {
+        return listOfUsers.get(emailAddress);
     }
 
-    public HashMap<UUID, User> getListOfUsers() {
+    public HashMap<String, User> getListOfUsers() {
         return listOfUsers;
     }
 }

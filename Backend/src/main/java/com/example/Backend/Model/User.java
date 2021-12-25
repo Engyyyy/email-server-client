@@ -6,20 +6,18 @@ import java.util.List;
 import java.util.UUID;
 
 public class User {
-    private UUID id;
-    private String userName;
+    private String firstname;
+    private String lastname;
     private String emailAddress;
     private EmailsList sentEmails;
     private EmailsList receivedEmails;
     private EmailsList allEmails;
     private EmailsList trash;
     private EmailsList draft;
+    private String password;
     private List<Integer> contacts;
 
-    public User(String userName, String emailAddress) {
-        this.id = UUID.randomUUID();;
-        this.userName = userName;
-        this.emailAddress = emailAddress;
+    public void initialize() {
         sentEmails = new EmailsList();
         receivedEmails = new EmailsList();
         allEmails = new EmailsList();
@@ -36,12 +34,12 @@ public class User {
         return trash;
     }
 
-    public UUID getId() {
-        return id;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getLastname() {
+        return lastname;
     }
 
     public String getEmailAddress() {
@@ -58,6 +56,10 @@ public class User {
 
     public EmailsList getAllEmails() {
         return allEmails;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public List<Integer> getContacts() {

@@ -20,19 +20,19 @@ public class RegisterServices {
 
     }
 
-    public UUID RegisterServices(String emailAddress) throws Exception {
+    public User register(String emailAddress, String password) throws Exception {
         try {
-            return loginService.Login(emailAddress);
+            return loginService.login(emailAddress, password);
         } catch (Exception invalidEmailAddress) {
             System.out.println("Enter a valid e-mail address.");
             throw new Exception();
         }
     }
 
-    public UUID RegisterServices(String emailAddress, String userName) {
+    public User register(User newUser) {
         try {
-            signUpServices.SignUp(emailAddress, userName);
-            return loginService.Login(emailAddress);
+            signUpServices.signUp(newUser);
+            return loginService.login(newUser.getEmailAddress(), newUser.getPassword());
         } catch (Exception invalidEmailAddress) {
             System.out.println("This e-mail address is used.\nPlease enter another e-mail address");
         }

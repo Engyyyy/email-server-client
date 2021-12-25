@@ -11,10 +11,10 @@ public class Utility {
 
     static final UsersList usersList = new UsersList();
 
-    public static final boolean validateUser(UUID id) {
-        for (HashMap.Entry<UUID, User> user : usersList.getListOfUsers().entrySet()) {
+    public static final boolean validateUser(String emailAddress) {
+        for (HashMap.Entry<String, User> user : usersList.getListOfUsers().entrySet()) {
             System.out.println(user.getKey() + "  :  " + user.getValue());
-            if (user.getValue().getId().equals(id)) {
+            if (user.getValue().getEmailAddress().equals(emailAddress)) {
                 return true;
             }
         }
