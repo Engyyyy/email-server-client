@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class UsersList {
     private static UsersList usersList;
     HashMap<Integer, User> listOfUsers;
+    public User currentUser;
 
     private UsersList() {
         listOfUsers = new HashMap<>();
@@ -22,4 +23,7 @@ public class UsersList {
         return listOfUsers.get(id);
     }
 
+    public HashMap<Integer, User> getListOfUsers() {
+        return listOfUsers;
+    }
 }

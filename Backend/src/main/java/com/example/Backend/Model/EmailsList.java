@@ -14,4 +14,7 @@ public class EmailsList {
     public Email getEmail(Integer id) {
         return listOfEmails.get(id);
     }
+    public void deleteEmail(int Id){
+        listOfEmails.remove(Id);
+    }
 }
