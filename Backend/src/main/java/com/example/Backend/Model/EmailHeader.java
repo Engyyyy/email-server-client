@@ -7,7 +7,6 @@ import java.util.UUID;
 public class EmailHeader {
     private Integer id;
     private UUID senderId;
-    private UUID receiversId;
     private UUID[] receiversIds;
     private String subject;
     private Timestamp timestamp;
