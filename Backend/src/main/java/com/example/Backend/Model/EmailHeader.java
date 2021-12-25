@@ -2,11 +2,13 @@ package com.example.Backend.Model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public class EmailHeader {
     private Integer id;
-    private Integer senderId;
-    private Integer[] receiversIds;
+    private UUID senderId;
+    private UUID receiversId;
+    private UUID[] receiversIds;
     private String subject;
     private Timestamp timestamp;
     private boolean priority;
@@ -20,21 +22,30 @@ public class EmailHeader {
 //        this.priority = priority;
 //    }
 
-    public Integer getSenderId() {
+    public UUID getSenderId() {
         return senderId;
     }
-    public Integer[] getReceivers() {
+
+    public UUID getReceiversId() {
+        return senderId;
+    }
+
+    public UUID[] getReceivers() {
         return receiversIds;
     }
+
     public String getSubject() {
         return subject;
     }
+
     public Timestamp getTimestamp() {
         return timestamp;
     }
+
     public int getId() {
         return id;
     }
+
     boolean isPriority() {
         return priority;
     }

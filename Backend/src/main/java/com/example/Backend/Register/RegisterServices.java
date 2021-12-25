@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.UUID;
+
 @Component
 public class RegisterServices {
 
@@ -18,21 +20,22 @@ public class RegisterServices {
 
     }
 
-    public void RegisterServices(String emailAddress) {
+    public UUID RegisterServices(String emailAddress) throws Exception {
         try {
-            loginService.Login(emailAddress);
+            return loginService.Login(emailAddress);
         } catch (Exception invalidEmailAddress) {
             System.out.println("Enter a valid e-mail address.");
+            throw new Exception();
         }
     }
 
-    public void RegisterServices(String emailAddress, String userName) {
+    public UUID RegisterServices(String emailAddress, String userName) {
         try {
             signUpServices.SignUp(emailAddress, userName);
-            loginService.Login(emailAddress);
+            return loginService.Login(emailAddress);
         } catch (Exception invalidEmailAddress) {
             System.out.println("This e-mail address is used.\nPlease enter another e-mail address");
         }
+        return null;
     }
-
 }

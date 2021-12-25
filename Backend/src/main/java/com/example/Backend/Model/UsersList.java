@@ -1,29 +1,24 @@
 package com.example.Backend.Model;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
+import java.util.UUID;
 
+@Component
 public class UsersList {
-    private static UsersList usersList;
-    HashMap<Integer, User> listOfUsers;
-    public User currentUser;
 
-    private UsersList() {
-        listOfUsers = new HashMap<>();
-    }
-    public static UsersList getInstance() {
-        if(usersList == null) {
-            usersList = new UsersList();
-        }
-        return usersList;
-    }
+    private static HashMap<UUID, User> listOfUsers=  new HashMap<>();
+
+
     public void addUser(User user) {
         listOfUsers.put(user.getId(), user);
     }
-    public User getUser(Integer id) {
+    public User getUser(UUID id) {
         return listOfUsers.get(id);
     }
 
-    public HashMap<Integer, User> getListOfUsers() {
+    public HashMap<UUID, User> getListOfUsers() {
         return listOfUsers;
     }
 }

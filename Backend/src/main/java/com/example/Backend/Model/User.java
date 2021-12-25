@@ -3,9 +3,10 @@ package com.example.Backend.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class User {
-    private Integer id;
+    private UUID id;
     private String userName;
     private String emailAddress;
     private EmailsList sentEmails;
@@ -15,8 +16,8 @@ public class User {
     private EmailsList draft;
     private List<Integer> contacts;
 
-    public User(Integer id, String userName, String emailAddress) {
-        this.id = id;
+    public User(String userName, String emailAddress) {
+        this.id = UUID.randomUUID();;
         this.userName = userName;
         this.emailAddress = emailAddress;
         sentEmails = new EmailsList();
@@ -35,7 +36,7 @@ public class User {
         return trash;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 

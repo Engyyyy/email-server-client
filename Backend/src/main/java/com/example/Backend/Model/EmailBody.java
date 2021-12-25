@@ -7,7 +7,7 @@ public class EmailBody {
     public String getContent() {
         return content;
     }
-    public Attachment[] getAttachments() {
+   public Attachment[] getAttachments() {
         return attachments;
     }
 

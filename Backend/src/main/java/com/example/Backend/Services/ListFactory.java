@@ -2,15 +2,14 @@ package com.example.Backend.Services;
 
 import com.example.Backend.Model.EmailsList;
 import com.example.Backend.Model.UsersList;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ListFactory {
+    @Autowired
     UsersList usersList;
 
-    public ListFactory() {
-        usersList = UsersList.getInstance();
-    }
-
-    public EmailsList getList(String listName, Integer userId){
+/*
+    public EmailsList getList(String listName, Integer userId) {
         EmailsList list;
         switch (listName) {
             case "draft":
@@ -26,5 +25,5 @@ public class ListFactory {
             default:
                 return null;
         }
-    }
+    }*/
 }
