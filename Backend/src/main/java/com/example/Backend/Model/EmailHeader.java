@@ -5,23 +5,43 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class EmailHeader {
-    private UUID id;
+    private Timestamp timeStamp;
+    private int id;
     private String senderEmailAddress;
     private String[] receiversEmailAddresses;
     private String subject;
-    private Timestamp timestamp;
     private boolean priority;
 
-//    public EmailHeader(Integer id, Integer senderId, Integer[] receiversIds, String subj, boolean priority) {
-//        timestamp = new Timestamp(System.currentTimeMillis());
-//        this.id = id;
-//        this.senderId = senderId;
-//        this.receiversIds = receiversIds;
-//        this.subject = subj;
-//        this.priority = priority;
-//    }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public UUID getId() {
+    public void setSenderEmailAddress(String senderEmailAddress) {
+        this.senderEmailAddress = senderEmailAddress;
+    }
+
+    public void setReceiversEmailAddresses(String[] receiversEmailAddresses) {
+        this.receiversEmailAddresses = receiversEmailAddresses;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setPriority(boolean priority) {
+        this.priority = priority;
+    }
+
+    public EmailHeader( int id, String senderEmailAddress, String[] receiversEmailAddresses, String subject, boolean priority) {
+        this.timeStamp = new Timestamp(System.currentTimeMillis());
+        this.id = id;
+        this.senderEmailAddress = senderEmailAddress;
+        this.receiversEmailAddresses = receiversEmailAddresses;
+        this.subject = subject;
+        this.priority = priority;
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -37,9 +57,6 @@ public class EmailHeader {
         return subject;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
 
     boolean isPriority() {
         return priority;

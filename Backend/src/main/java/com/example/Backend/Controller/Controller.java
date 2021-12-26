@@ -48,10 +48,10 @@ public class Controller {
         }
     }
 
-    @PostMapping("/send")
+  /*  @PostMapping("/send")
     public void send(@RequestBody Email email) {
         emailService.sendEmail(email);
     }
-
+*/
 
 }

@@ -10,14 +10,14 @@ import java.util.UUID;
 public class SignUpServices {
     UsersList usersList;
 
-    public SignUpServices(){
+    public SignUpServices() {
         usersList = new UsersList();
     }
 
     public User signUp(String firstname, String lastname, String emailAddress, String password) throws Exception {
         User newUser = new User(firstname, lastname, emailAddress, password);
         if (!checkUniqueness(newUser.getEmailAddress())) throw new Exception();
-        usersList.addUser(newUser);
+        usersList.addUser(emailAddress, password, firstname, lastname);
         return newUser;
     }
 

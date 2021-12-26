@@ -16,7 +16,7 @@ public class EmailService {
     ListFactory listFactory = new ListFactory();
 
 
-    public void sendEmail(Email email) {
+ /*   public void sendEmail(Email email) {
         if (Utility.validateUser(email.getHeader().getSenderEmailAddress())) {
             User sender = usersList.getUser(email.getHeader().getSenderEmailAddress());
             sender.getAllEmails().addEmail(email);
