@@ -6,14 +6,17 @@ import java.util.UUID;
 
 public class EmailHeader {
     private Timestamp timeStamp;
-    private int id;
     private String senderEmailAddress;
     private String[] receiversEmailAddresses;
     private String subject;
     private boolean priority;
 
-    public void setId(int id) {
-        this.id = id;
+    public Timestamp getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Timestamp timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public void setSenderEmailAddress(String senderEmailAddress) {
@@ -32,18 +35,14 @@ public class EmailHeader {
         this.priority = priority;
     }
 
-    public EmailHeader( int id, String senderEmailAddress, String[] receiversEmailAddresses, String subject, boolean priority) {
+    public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, boolean priority) {
         this.timeStamp = new Timestamp(System.currentTimeMillis());
-        this.id = id;
         this.senderEmailAddress = senderEmailAddress;
         this.receiversEmailAddresses = receiversEmailAddresses;
         this.subject = subject;
         this.priority = priority;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public String getSenderEmailAddress() {
         return senderEmailAddress;

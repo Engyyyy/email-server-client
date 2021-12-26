@@ -12,6 +12,7 @@ import javax.swing.text.html.parser.Parser;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public class UsersList {
     }
 
     public void addUser(String emailAddress, String password, String firstNAme, String lastName) throws Exception {
-        User user = new User(emailAddress, password, firstNAme, lastName);
+        User user = new User(firstNAme,lastName,emailAddress,password);
         listOfUsers.put(emailAddress, user);
         update();
     }

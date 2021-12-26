@@ -47,11 +47,11 @@ public class Controller {
             return HttpStatus.NOT_ACCEPTABLE;
         }
     }
-
-  /*  @PostMapping("/send")
+/*
+    @PostMapping("/send")
     public void send(@RequestBody Email email) {
         emailService.sendEmail(email);
     }
-*/
 
+*/
 }

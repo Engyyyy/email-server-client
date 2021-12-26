@@ -1,18 +1,20 @@
 package com.example.Backend.Model;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class User {
     private String firstname;
     private String lastname;
     private String emailAddress;
-    private ArrayList<Email> sentEmails;
-    private ArrayList<Email> receivedEmails;
-    private ArrayList<Email> allEmails;
-    private ArrayList<Email> trash;
-    private ArrayList<Email> draft;
+    private HashMap<Timestamp, Email> sentEmails;
+    private HashMap<Timestamp, Email> receivedEmails;
+    private HashMap<Timestamp, Email> allEmails;
+    private HashMap<Timestamp, Email> trash;
+    private HashMap<Timestamp, Email> draft;
     private String password;
     private ArrayList<Integer> contacts;
 
@@ -20,17 +22,17 @@ public class User {
     }
 
 
-    public User(String emailAddress, String password, String firstname,String lastname) {
+    public User(String firstname, String lastname, String emailAddress, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
         this.emailAddress = emailAddress;
-        sentEmails = new ArrayList<>();
-        receivedEmails = new ArrayList<Email>();
-        allEmails = new ArrayList<Email>();
+        sentEmails = new HashMap<Timestamp, Email>();
+        receivedEmails = new HashMap<Timestamp, Email>();
+        allEmails = new HashMap<Timestamp, Email>();
         contacts = new ArrayList<Integer>();
-        trash = new ArrayList<Email>();
-        draft = new ArrayList<Email>();
+        trash = new HashMap<Timestamp, Email>();
+        draft = new HashMap<Timestamp, Email>();
     }
 
     public String getFirstname() {
@@ -57,43 +59,43 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
-    public ArrayList<Email> getSentEmails() {
+    public HashMap<Timestamp, Email> getSentEmails() {
         return sentEmails;
     }
 
-    public void setSentEmails(ArrayList<Email> sentEmails) {
+    public void setSentEmails(HashMap<Timestamp, Email> sentEmails) {
         this.sentEmails = sentEmails;
     }
 
-    public ArrayList<Email> getReceivedEmails() {
+    public HashMap<Timestamp, Email> getReceivedEmails() {
         return receivedEmails;
     }
 
-    public void setReceivedEmails(ArrayList<Email> receivedEmails) {
+    public void setReceivedEmails(HashMap<Timestamp, Email> receivedEmails) {
         this.receivedEmails = receivedEmails;
     }
 
-    public ArrayList<Email> getAllEmails() {
+    public HashMap<Timestamp, Email> getAllEmails() {
         return allEmails;
     }
 
-    public void setAllEmails(ArrayList<Email> allEmails) {
+    public void setAllEmails(HashMap<Timestamp, Email> allEmails) {
         this.allEmails = allEmails;
     }
 
-    public ArrayList<Email> getTrash() {
+    public HashMap<Timestamp, Email> getTrash() {
         return trash;
     }
 
-    public void setTrash(ArrayList<Email> trash) {
+    public void setTrash(HashMap<Timestamp, Email> trash) {
         this.trash = trash;
     }
 
-    public ArrayList<Email> getDraft() {
+    public HashMap<Timestamp, Email> getDraft() {
         return draft;
     }
 
-    public void setDraft(ArrayList<Email> draft) {
+    public void setDraft(HashMap<Timestamp, Email> draft) {
         this.draft = draft;
     }
 

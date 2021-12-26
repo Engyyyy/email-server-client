@@ -15,7 +15,7 @@ public class LoginService {
         usersList = new UsersList();
     }
     public User login(String emailAddress, String password) throws Exception {
-        User registeredUser = usersList.getUser(emailAddress);
+        User registeredUser = usersList.getListOfUsers().get(emailAddress);
         if(registeredUser == null || !authentication(registeredUser.getPassword(), password)) {
             throw new Exception();
         }
