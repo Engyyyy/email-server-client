@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class EmailHeader {
+    private UUID id;
     private Timestamp timeStamp;
     private String senderEmailAddress;
     private String[] receiversEmailAddresses;
@@ -14,7 +15,7 @@ public class EmailHeader {
     public Timestamp getTimeStamp() {
         return timeStamp;
     }
-
+    public EmailHeader(){}
     public void setTimeStamp(Timestamp timeStamp) {
         this.timeStamp = timeStamp;
     }
@@ -37,12 +38,20 @@ public class EmailHeader {
 
     public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, boolean priority) {
         this.timeStamp = new Timestamp(System.currentTimeMillis());
+        this.id = UUID.randomUUID();
         this.senderEmailAddress = senderEmailAddress;
         this.receiversEmailAddresses = receiversEmailAddresses;
         this.subject = subject;
         this.priority = priority;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getSenderEmailAddress() {
         return senderEmailAddress;

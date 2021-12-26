@@ -32,7 +32,19 @@ public class UsersList {
     }
 
     public void addUser(String emailAddress, String password, String firstNAme, String lastName) throws Exception {
-        User user = new User(firstNAme,lastName,emailAddress,password);
+        User user = new User(firstNAme, lastName, emailAddress, password);
+        EmailHeader eh = new EmailHeader("aliaa", new String[]{"fdg"}, "dgra", true);
+        EmailBody eb = new EmailBody("dfffffffs");
+        Email email = new Email(eh, eb);
+        user.getSentEmails().put(email.getHeader().getId(), email);
+        EmailHeader eh1 = new EmailHeader("aliaa", new String[]{"fdg"}, "dgra", true);
+        user.getSentEmails().put(email.getHeader().getId(), email);
+        Email email2 = new Email(eh1, eb);
+        EmailHeader eh2 = new EmailHeader("aliaa", new String[]{"fdg"}, "dgra", true);
+        user.getSentEmails().put(email2.getHeader().getId(), email2);
+        Email email3 = new Email(eh2, eb);
+        EmailHeader eh3 = new EmailHeader("aliaa", new String[]{"fdg"}, "dgra", true);
+        user.getSentEmails().put(email3.getHeader().getId(), email3);
         listOfUsers.put(emailAddress, user);
         update();
     }
@@ -48,12 +60,10 @@ public class UsersList {
     public void loadListOfUsers() throws Exception {
         String path = "src/main/resources/userList.json";
         ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            listOfUsers = objectMapper.readValue(new File(path), new TypeReference<>() {
-            });
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+
+        listOfUsers = objectMapper.readValue(new File(path), new TypeReference<>() {
+        });
+
     }
 
     public void update() throws IOException {

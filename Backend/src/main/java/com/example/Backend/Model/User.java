@@ -1,20 +1,21 @@
 package com.example.Backend.Model;
 
 
-import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 
 public class User {
     private String firstname;
     private String lastname;
     private String emailAddress;
-    private HashMap<Timestamp, Email> sentEmails;
-    private HashMap<Timestamp, Email> receivedEmails;
-    private HashMap<Timestamp, Email> allEmails;
-    private HashMap<Timestamp, Email> trash;
-    private HashMap<Timestamp, Email> draft;
+    private HashMap<UUID, Email> sentEmails;
+    private HashMap<UUID, Email> receivedEmails;
+    private HashMap<UUID, Email> allEmails;
+    private HashMap<UUID, Email> trash;
+    private HashMap<UUID, Email> draft;
     private String password;
     private ArrayList<Integer> contacts;
 
@@ -27,12 +28,12 @@ public class User {
         this.lastname = lastname;
         this.password = password;
         this.emailAddress = emailAddress;
-        sentEmails = new HashMap<Timestamp, Email>();
-        receivedEmails = new HashMap<Timestamp, Email>();
-        allEmails = new HashMap<Timestamp, Email>();
+        sentEmails = new HashMap<UUID, Email>();
+        receivedEmails = new HashMap<UUID, Email>();
+        allEmails = new HashMap<UUID, Email>();
         contacts = new ArrayList<Integer>();
-        trash = new HashMap<Timestamp, Email>();
-        draft = new HashMap<Timestamp, Email>();
+        trash = new HashMap<UUID, Email>();
+        draft = new HashMap<UUID, Email>();
     }
 
     public String getFirstname() {
@@ -59,43 +60,43 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
-    public HashMap<Timestamp, Email> getSentEmails() {
+    public HashMap<UUID, Email> getSentEmails() {
         return sentEmails;
     }
 
-    public void setSentEmails(HashMap<Timestamp, Email> sentEmails) {
+    public void setSentEmails(HashMap<UUID, Email> sentEmails) {
         this.sentEmails = sentEmails;
     }
 
-    public HashMap<Timestamp, Email> getReceivedEmails() {
+    public HashMap<UUID, Email> getReceivedEmails() {
         return receivedEmails;
     }
 
-    public void setReceivedEmails(HashMap<Timestamp, Email> receivedEmails) {
+    public void setReceivedEmails(HashMap<UUID, Email> receivedEmails) {
         this.receivedEmails = receivedEmails;
     }
 
-    public HashMap<Timestamp, Email> getAllEmails() {
+    public HashMap<UUID, Email> getAllEmails() {
         return allEmails;
     }
 
-    public void setAllEmails(HashMap<Timestamp, Email> allEmails) {
+    public void setAllEmails(HashMap<UUID, Email> allEmails) {
         this.allEmails = allEmails;
     }
 
-    public HashMap<Timestamp, Email> getTrash() {
+    public HashMap<UUID, Email> getTrash() {
         return trash;
     }
 
-    public void setTrash(HashMap<Timestamp, Email> trash) {
+    public void setTrash(HashMap<UUID, Email> trash) {
         this.trash = trash;
     }
 
-    public HashMap<Timestamp, Email> getDraft() {
+    public HashMap<UUID, Email> getDraft() {
         return draft;
     }
 
-    public void setDraft(HashMap<Timestamp, Email> draft) {
+    public void setDraft(HashMap<UUID, Email> draft) {
         this.draft = draft;
     }
 

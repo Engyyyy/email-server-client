@@ -21,7 +21,8 @@ public class EmailServerApplication {
             usersList.loadListOfUsers();
            System.out.println("loaded");
        }catch (Exception e){
-            System.out.println("error in loading files");
+           System.out.println(e);
+            System.out.println("\nerror in loading files");
         }
     }
 

@@ -11,7 +11,7 @@ public class EmailBody {
     public void setContent(String content) {
         this.content = content;
     }
-
+public EmailBody(){}
     public EmailBody(String content) {
         this.content = content;
     }
