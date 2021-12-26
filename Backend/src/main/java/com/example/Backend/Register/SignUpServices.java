@@ -14,9 +14,11 @@ public class SignUpServices {
         usersList = new UsersList();
     }
 
-    public void signUp(User newUser) throws Exception {
+    public User signUp(String firstname, String lastname, String emailAddress, String password) throws Exception {
+        User newUser = new User(firstname, lastname, emailAddress, password);
         if (!checkUniqueness(newUser.getEmailAddress())) throw new Exception();
         usersList.addUser(newUser);
+        return newUser;
     }
 
     private boolean checkUniqueness(String emailAddress) {

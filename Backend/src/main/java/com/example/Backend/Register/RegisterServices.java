@@ -29,9 +29,9 @@ public class RegisterServices {
         }
     }
 
-    public User register(User newUser) {
+    public User register(String firstname, String lastname, String emailAddress, String password) throws Exception {
         try {
-            signUpServices.signUp(newUser);
+            User newUser = signUpServices.signUp(firstname, lastname, emailAddress, password);
             return loginService.login(newUser.getEmailAddress(), newUser.getPassword());
         } catch (Exception invalidEmailAddress) {
             System.out.println("This e-mail address is used.\nPlease enter another e-mail address");

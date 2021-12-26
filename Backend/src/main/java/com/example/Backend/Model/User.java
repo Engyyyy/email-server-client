@@ -15,9 +15,13 @@ public class User {
     private EmailsList trash;
     private EmailsList draft;
     private String password;
-    private List<Integer> contacts;
+    private List<String> contacts;
 
-    public void initialize() {
+    public User(String firstname, String lastname, String emailAddress, String password) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.emailAddress = emailAddress;
+        this.password = password;
         sentEmails = new EmailsList();
         receivedEmails = new EmailsList();
         allEmails = new EmailsList();
@@ -62,7 +66,7 @@ public class User {
         return password;
     }
 
-    public List<Integer> getContacts() {
+    public List<String> getContacts() {
         return contacts;
     }
 }
