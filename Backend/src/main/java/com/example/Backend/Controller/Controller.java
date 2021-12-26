@@ -19,10 +19,8 @@ public class Controller {
 
     @Autowired
     RegisterServices registerServices;
-    @Autowired
-    UsersList usersList;
 
-    EmailService emailService = new EmailService();
+
 
 
     @GetMapping("/login")

@@ -2,7 +2,7 @@ package com.example.Backend.Model;
 
 public class EmailBody {
     String content;
-  //  Attachment[] attachments;
+    //  Attachment[] attachments;
 
     public String getContent() {
         return content;
@@ -11,16 +11,12 @@ public class EmailBody {
     public void setContent(String content) {
         this.content = content;
     }
-public EmailBody(){}
+
+    public EmailBody() {
+    }
+
     public EmailBody(String content) {
         this.content = content;
     }
-/*  public Attachment[] getAttachments() {
-        return attachments;
-    }
 
-//    public EmailBody(String content, Attachment[] attachments){
-//        this.content = content;
-//        this.attachments = attachments;
-//    }*/
 }

@@ -1,5 +1,6 @@
 package com.example.Backend.Model;
 
+import com.example.Backend.Utility.Utility;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,38 +25,23 @@ import org.json.JSONObject;
 @Component
 public class UsersList {
 
-    private static HashMap<String, User> listOfUsers = new HashMap<>();
-    private ObjectMapper mapper;
+    public static HashMap<String, User> listOfUsers = new HashMap<>();
 
     public UsersList() {
-        mapper = new ObjectMapper();
+
     }
 
     public void addUser(String emailAddress, String password, String firstNAme, String lastName) throws Exception {
         User user = new User(firstNAme, lastName, emailAddress, password);
         listOfUsers.put(emailAddress, user);
-        update();
+        Utility.update();
     }
 
     public User getUser(String emailAddress) {
         return listOfUsers.get(emailAddress);
     }
 
-    public HashMap<String, User> getListOfUsers() {
-        return listOfUsers;
-    }
 
-    public void loadListOfUsers() throws Exception {
-        String path = "src/main/resources/userList.json";
-        ObjectMapper objectMapper = new ObjectMapper();
 
-        listOfUsers = objectMapper.readValue(new File(path), new TypeReference<>() {
-        });
 
-    }
-
-    public void update() throws IOException {
-        String path = "src/main/resources/userList.json";
-        mapper.writeValue(new FileWriter(path), listOfUsers);
-    }
 }

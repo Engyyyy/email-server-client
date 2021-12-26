@@ -22,13 +22,5 @@ public class SignUpServices {
         return newUser;
     }
 
-    private boolean checkUniqueness(String emailAddress) {
-        for (HashMap.Entry<String, User> user : usersList.getListOfUsers().entrySet()) {
-            System.out.println(user.getKey() + "  :  " + user.getValue());
-            if (user.getValue().getEmailAddress().equals(emailAddress)) {
-                return false;
-            }
-        }
-        return true;
-    }
+
 }
