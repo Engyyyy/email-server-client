@@ -4,17 +4,15 @@ import com.example.Backend.Model.Email;
 import com.example.Backend.Model.User;
 import com.example.Backend.Model.UserBasicData;
 import com.example.Backend.Model.UsersList;
-import com.example.Backend.Services.ListFactory;
+import com.example.Backend.Factories.ListFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -49,21 +47,30 @@ public class Utility {
         });
         assert directories != null;
         for (String emailAddress : directories) {
+            User user = new User(emailAddress);
+            UsersList.listOfUsers.put(emailAddress, user);
             for (String listName : attributes) {
                 subPath = path + "/" + emailAddress + "/" + listName + ".json";
-                User user = new User(emailAddress);
-                UsersList.listOfUsers.put(emailAddress, user);
-                Object list = listFactory.getList(listName, emailAddress);
-                list = mapper.readValue(new File(subPath), new TypeReference<>() {
-                });
-
+                if (listName.equals("userBasicData")) {
+                    UserBasicData list;
+                    list = mapper.readValue(new File(subPath), new TypeReference<>() {
+                    });
+                    user.setUserBasicData(list);
+                } else if (listName.equals("contacts")) {
+                    ArrayList<String> list;
+                    list = mapper.readValue(new File(subPath), new TypeReference<>() {
+                    });
+                    user.setContacts(list);
+                } else {
+                    HashMap<UUID, Email> list = mapper.readValue(new File(subPath), new TypeReference<>() {
+                    });
+                    listFactory.setList(listName, emailAddress, list);
+                }
             }
         }
-
-
     }
 
-    public static void createUserDirectory(String emailAddress) throws IOException {
+    public static void createUserDirectory(String emailAddress) throws Exception {
         String path = "src/main/resources/DB/" + emailAddress;
         HashMap<UUID, Email> emptyMap = new HashMap<>();
         UserBasicData emptyUserBasicData = new UserBasicData();
@@ -72,9 +79,11 @@ public class Utility {
         path += "/";
         for (String i : attributes) {
             File myObj = new File(path + i + ".json");
-            myObj.createNewFile();
-            if (i == "contacts") {
+            if (!myObj.createNewFile()) throw new Exception();
+            if (i.equals("contacts")) {
                 mapper.writeValue(new FileWriter(path + i + ".json"), emptyArray);
+            } else if (i.equals("userBasicData")) {
+                mapper.writeValue(new FileWriter(path + i + ".json"), emptyUserBasicData);
             } else {
                 mapper.writeValue(new FileWriter(path + i + ".json"), emptyMap);
             }
@@ -82,10 +91,9 @@ public class Utility {
         }
     }
 
-
     public static void update(String emailAddress, String listName) throws IOException {
         Object list = listFactory.getList(listName, emailAddress);
-        String path = "src/main/resources/DB/" + emailAddress + "/" + listName;
+        String path = "src/main/resources/DB/" + emailAddress + "/" + listName + ".json";
         mapper.writeValue(new FileWriter(path), list);
     }
 }

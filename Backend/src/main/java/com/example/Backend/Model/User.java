@@ -13,7 +13,7 @@ public class User {
     private HashMap<UUID, Email> allEmails;
     private HashMap<UUID, Email> trash;
     private HashMap<UUID, Email> draft;
-    private ArrayList<Integer> contacts;
+    private ArrayList<String> contacts;
 
     public User() {
     }
@@ -22,7 +22,7 @@ public class User {
         sentEmails = new HashMap<UUID, Email>();
         receivedEmails = new HashMap<UUID, Email>();
         allEmails = new HashMap<UUID, Email>();
-        contacts = new ArrayList<Integer>();
+        contacts = new ArrayList<String>();
         trash = new HashMap<UUID, Email>();
         draft = new HashMap<UUID, Email>();
         userBasicData = new UserBasicData();
@@ -42,7 +42,7 @@ public class User {
         sentEmails = new HashMap<UUID, Email>();
         receivedEmails = new HashMap<UUID, Email>();
         allEmails = new HashMap<UUID, Email>();
-        contacts = new ArrayList<Integer>();
+        contacts = new ArrayList<String>();
         trash = new HashMap<UUID, Email>();
         draft = new HashMap<UUID, Email>();
     }
@@ -119,11 +119,11 @@ public class User {
         this.userBasicData.setPassword(password);
     }
 
-    public ArrayList<Integer> getContacts() {
+    public ArrayList<String> getContacts() {
         return contacts;
     }
 
-    public void setContacts(ArrayList<Integer> contacts) {
+    public void setContacts(ArrayList<String> contacts) {
         this.contacts = contacts;
     }
 }

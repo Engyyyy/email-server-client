@@ -10,12 +10,26 @@ public class EmailHeader {
     private String senderEmailAddress;
     private String[] receiversEmailAddresses;
     private String subject;
-    private boolean priority;
+    private int priority;
+
+
+
+    public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, int priority) {
+        this.timeStamp = new Timestamp(System.currentTimeMillis());
+        this.id = UUID.randomUUID();
+        this.senderEmailAddress = senderEmailAddress;
+        this.receiversEmailAddresses = receiversEmailAddresses;
+        this.subject = subject;
+        this.priority = priority;
+    }
+
+    public EmailHeader() {
+    }
 
     public Timestamp getTimeStamp() {
         return timeStamp;
     }
-    public EmailHeader(){}
+
     public void setTimeStamp(Timestamp timeStamp) {
         this.timeStamp = timeStamp;
     }
@@ -32,18 +46,10 @@ public class EmailHeader {
         this.subject = subject;
     }
 
-    public void setPriority(boolean priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 
-    public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, boolean priority) {
-        this.timeStamp = new Timestamp(System.currentTimeMillis());
-        this.id = UUID.randomUUID();
-        this.senderEmailAddress = senderEmailAddress;
-        this.receiversEmailAddresses = receiversEmailAddresses;
-        this.subject = subject;
-        this.priority = priority;
-    }
 
     public UUID getId() {
         return id;
@@ -66,7 +72,7 @@ public class EmailHeader {
     }
 
 
-    boolean isPriority() {
+    public int getPriority() {
         return priority;
     }
 }

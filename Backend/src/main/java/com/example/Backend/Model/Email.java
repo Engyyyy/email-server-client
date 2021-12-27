@@ -6,6 +6,10 @@ public class Email {
 
     public Email() {
     }
+    public Email(int priority,Email email){
+        this.body = email.getBody();
+        this.header=email.getHeader();
+    }
 
     public EmailHeader getHeader() {
         return header;
@@ -27,4 +31,7 @@ public class Email {
         this.header = header;
         this.body = body;
     }
+
+
+
 }

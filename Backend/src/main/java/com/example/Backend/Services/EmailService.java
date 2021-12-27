@@ -1,10 +1,6 @@
 package com.example.Backend.Services;
 
-import com.example.Backend.Model.Email;
-import com.example.Backend.Model.User;
-import com.example.Backend.Model.UsersList;
-import com.example.Backend.Utility.Utility;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.Backend.Factories.ListFactory;
 
 public class EmailService {
     ListFactory listFactory = new ListFactory();
