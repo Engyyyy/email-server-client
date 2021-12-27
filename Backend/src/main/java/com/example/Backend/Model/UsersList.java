@@ -12,11 +12,13 @@ import org.springframework.stereotype.Component;
 import javax.swing.text.html.parser.Parser;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,16 +34,22 @@ public class UsersList {
     }
 
     public void addUser(String emailAddress, String password, String firstNAme, String lastName) throws Exception {
+        Utility.createUserDirectory(emailAddress);
         User user = new User(firstNAme, lastName, emailAddress, password);
-        listOfUsers.put(emailAddress, user);
-        Utility.update();
+        String path = "src/main/resources/DB/"+emailAddress+"/"+"userBasicData.json";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(new FileWriter(path), user.getUserBasicData());
+        }catch (Exception e){
+            System.out.println(e);
+        }
+       listOfUsers.put(emailAddress, user);
+        /*Utility.update();*/
     }
 
     public User getUser(String emailAddress) {
         return listOfUsers.get(emailAddress);
     }
-
-
 
 
 }

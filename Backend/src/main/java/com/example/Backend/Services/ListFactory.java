@@ -1,27 +1,30 @@
 package com.example.Backend.Services;
 
+import com.example.Backend.Model.Email;
 import com.example.Backend.Model.UsersList;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class ListFactory {
     @Autowired
     UsersList usersList;
-/*
-    public ArrayList<Email> getList(String listName, String emailAdress) {
-        EmailsList list;
+
+    public HashMap<UUID, Email> getList(String listName, String emailAdress) {
         switch (listName) {
             case "draft":
-                return usersList.getListOfUsers().get(emailAdress).getDraft();
+                return UsersList.listOfUsers.get(emailAdress).getDraft();
             case "sentEmails":
-                return usersList.getListOfUsers().get(emailAdress).getSentEmails();
+                return UsersList.listOfUsers.get(emailAdress).getSentEmails();
             case "receivedEmails":
-                return usersList.getListOfUsers().get(emailAdress).getReceivedEmails();
+                return UsersList.listOfUsers.get(emailAdress).getReceivedEmails();
             case "allEmails":
-                return usersList.getListOfUsers().get(emailAdress).getAllEmails();
+                return UsersList.listOfUsers.get(emailAdress).getAllEmails();
             case "trash":
-                return usersList.getListOfUsers().get(emailAdress).getTrash();
+                return UsersList.listOfUsers.get(emailAdress).getTrash();
             default:
                 return null;
         }
-    }*/
+    }
 }

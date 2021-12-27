@@ -1,33 +1,44 @@
 package com.example.Backend.Model;
 
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 
 public class User {
-    private String firstname;
-    private String lastname;
-    private String emailAddress;
+    private UserBasicData userBasicData;
     private HashMap<UUID, Email> sentEmails;
     private HashMap<UUID, Email> receivedEmails;
     private HashMap<UUID, Email> allEmails;
     private HashMap<UUID, Email> trash;
     private HashMap<UUID, Email> draft;
-    private String password;
     private ArrayList<Integer> contacts;
 
     public User() {
     }
 
+    public User(String emailAddress) {
+        sentEmails = new HashMap<UUID, Email>();
+        receivedEmails = new HashMap<UUID, Email>();
+        allEmails = new HashMap<UUID, Email>();
+        contacts = new ArrayList<Integer>();
+        trash = new HashMap<UUID, Email>();
+        draft = new HashMap<UUID, Email>();
+        userBasicData = new UserBasicData();
+        userBasicData.setEmailAddress(emailAddress);
+    }
+
+    public UserBasicData getUserBasicData() {
+        return userBasicData;
+    }
+
+    public void setUserBasicData(UserBasicData userBasicData) {
+        this.userBasicData = userBasicData;
+    }
 
     public User(String firstname, String lastname, String emailAddress, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.password = password;
-        this.emailAddress = emailAddress;
+        this.userBasicData = new UserBasicData(firstname, lastname, emailAddress, password);
         sentEmails = new HashMap<UUID, Email>();
         receivedEmails = new HashMap<UUID, Email>();
         allEmails = new HashMap<UUID, Email>();
@@ -37,27 +48,27 @@ public class User {
     }
 
     public String getFirstname() {
-        return firstname;
+        return this.userBasicData.getFirstname();
     }
 
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        userBasicData.setFirstname(firstname);
     }
 
     public String getLastname() {
-        return lastname;
+        return this.userBasicData.getLastname();
     }
 
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.userBasicData.setLastname(lastname);
     }
 
     public String getEmailAddress() {
-        return emailAddress;
+        return this.userBasicData.getEmailAddress();
     }
 
     public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+        this.userBasicData.setEmailAddress(emailAddress);
     }
 
     public HashMap<UUID, Email> getSentEmails() {
@@ -101,11 +112,11 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return this.userBasicData.getPassword();
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.userBasicData.setPassword(password);
     }
 
     public ArrayList<Integer> getContacts() {
