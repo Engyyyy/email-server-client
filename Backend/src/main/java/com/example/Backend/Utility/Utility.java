@@ -96,4 +96,8 @@ public class Utility {
         String path = "src/main/resources/DB/" + emailAddress + "/" + listName + ".json";
         mapper.writeValue(new FileWriter(path), list);
     }
+
+    public static UUID generateId() {
+        return UUID.randomUUID();
+    }
 }

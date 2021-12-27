@@ -35,7 +35,7 @@ public class RegisterServices {
             return loginService.login(newUser.getEmailAddress(), newUser.getPassword());
         } catch (Exception invalidEmailAddress) {
             System.out.println("This e-mail address is used.\nPlease enter another e-mail address");
+            throw new Exception();
         }
-        return null;
     }
 }

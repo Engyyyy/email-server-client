@@ -1,5 +1,7 @@
 package com.example.Backend.Model;
 
+import com.example.Backend.Utility.Utility;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -10,13 +12,13 @@ public class EmailHeader {
     private String senderEmailAddress;
     private String[] receiversEmailAddresses;
     private String subject;
-    private int priority;
+    private String priority;
 
 
 
-    public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, int priority) {
+    public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, String priority) {
         this.timeStamp = new Timestamp(System.currentTimeMillis());
-        this.id = UUID.randomUUID();
+        this.id = Utility.generateId();
         this.senderEmailAddress = senderEmailAddress;
         this.receiversEmailAddresses = receiversEmailAddresses;
         this.subject = subject;
@@ -46,7 +48,7 @@ public class EmailHeader {
         this.subject = subject;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
@@ -72,7 +74,7 @@ public class EmailHeader {
     }
 
 
-    public int getPriority() {
+    public String getPriority() {
         return priority;
     }
 }
