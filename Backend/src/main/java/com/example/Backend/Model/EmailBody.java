@@ -10,8 +10,11 @@ public class EmailBody {
 
     public EmailBody(MultipartFile[] files, String content) throws IOException {
         this.content = content;
-        attachments = new Attachment[files.length];
-        for(int i = 0; i < files.length; i++) {
+        if(files == null) {
+            attachments = new Attachment[0];
+        }
+        else attachments = new Attachment[files.length];
+        for(int i = 0; i < attachments.length; i++) {
             Attachment attachment = new Attachment(files[i]);
             attachments[i] = attachment;
         }
