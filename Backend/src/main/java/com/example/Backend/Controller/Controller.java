@@ -107,4 +107,24 @@ public class Controller {
         }
     }
 
+    @DeleteMapping("/deleteEmail")
+    public HttpStatus deleteEmail(@RequestParam String emailAddress, @RequestParam String listName, @RequestParam UUID[] emailsId) {
+        try {
+            usersList.bulkDeletion(emailAddress, listName, emailsId);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @GetMapping("/retrieveEmail")
+    public HttpStatus retrieveEmail(@RequestParam String emailAddress, @RequestParam UUID[] emailsId) {
+        try {
+            usersList.bulkRetrieval(emailAddress, emailsId);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
 }
