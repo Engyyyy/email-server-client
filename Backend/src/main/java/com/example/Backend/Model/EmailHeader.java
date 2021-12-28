@@ -10,11 +10,11 @@ public class EmailHeader {
     private String senderEmailAddress;
     private String[] receiversEmailAddresses;
     private String subject;
-    private String priority;
+    private int priority;
 
 
 
-    public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, String priority) {
+    public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, int priority) {
         this.timeStamp = System.currentTimeMillis();
         this.id = FileManipulation.generateId();
         this.senderEmailAddress = senderEmailAddress;
@@ -46,7 +46,7 @@ public class EmailHeader {
         this.subject = subject;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 
@@ -72,7 +72,7 @@ public class EmailHeader {
     }
 
 
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
 }

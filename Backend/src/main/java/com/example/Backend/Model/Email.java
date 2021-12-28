@@ -13,7 +13,7 @@ public class Email {
     public Email() {
         this.trashProperties = new ArrayList<>();
     }
-    public Email(String sender, String[] receivers, String subject, String message, String priority, MultipartFile[] files) throws IOException {
+    public Email(String sender, String[] receivers, String subject, String message, int priority, MultipartFile[] files) throws IOException {
         this.body = new EmailBody(files, message);
         this.header = new EmailHeader(sender, receivers, subject, priority);
         this.trashProperties = new ArrayList<>();

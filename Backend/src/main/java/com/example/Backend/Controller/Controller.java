@@ -2,15 +2,20 @@ package com.example.Backend.Controller;
 
 
 import com.example.Backend.Model.Email;
+import com.example.Backend.Model.User;
 import com.example.Backend.Model.UsersList;
+import com.example.Backend.Rearrangments.Arrange;
 import com.example.Backend.Register.RegisterServices;
 import com.example.Backend.Services.EmailService;
 import com.example.Backend.FileManipulation.FileManipulation;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.UUID;
 
 @CrossOrigin
@@ -74,9 +79,13 @@ public class Controller {
     }
 
     @PostMapping("/send")
-    public HttpStatus send(@RequestParam String senderEmail, @RequestParam String[] receiversEmails, @RequestParam String subject, @RequestParam String message, @RequestBody MultipartFile[] attachments, @RequestParam String priority) {
+    public HttpStatus send(@RequestParam String senderEmail, @RequestParam JSONArray receiversEmails, @RequestParam String subject, @RequestParam String message, @RequestBody MultipartFile[] attachments, @RequestParam int priority) {
         try {
-            Email email = emailService.createEmail(senderEmail, receiversEmails, subject, message, priority, attachments);
+            String[] receivers = new String[receiversEmails.length()];
+            for(int i = 0; i < receivers.length; i++) {
+                receivers[i] = receiversEmails.getString(i);
+            }
+            Email email = emailService.createEmail(senderEmail, receivers, subject, message, priority, attachments);
             emailService.sendEmail(email);
             return HttpStatus.OK;
 
@@ -84,6 +93,18 @@ public class Controller {
             System.out.println("Exception in send:");
             System.out.println(fileNotCreated);
             return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @GetMapping("/sort")
+    public Email[] sortEmails(@RequestParam String emailAddress, @RequestParam String list, @RequestParam String criteria) {
+        try {
+            return emailService.sortEmails(emailAddress, list, criteria);
+        }
+        catch(Exception userNotFound) {
+            System.out.println("Exception in sort: USER NOT FOUND");
+            System.out.println(userNotFound);
+            return new Email[0];
         }
     }
 

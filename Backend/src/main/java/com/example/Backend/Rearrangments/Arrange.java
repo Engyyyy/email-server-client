@@ -4,22 +4,39 @@ import com.example.Backend.Model.Email;
 
 import java.util.*;
 
-public class Arrange /*implements ArrangeI*/ {
+public class Arrange {
 
-    /*public PriorityQueue<Entry> arrange(HashMap<UUID, Email> list) {
-        PriorityQueue<Entry> q = new PriorityQueue<>((x, y) -> {
-            return Integer.compare(y.getValue().getHeader().getPriority(), x.getValue().getHeader().getPriority());
-        });
-        for (HashMap.Entry<UUID, Email> emailEntry : list.entrySet()) {
-            q.add(new Entry(emailEntry.getValue().getHeader().getPriority()+"", emailEntry.getValue()));
+    public static Email[] sortByPriority(HashMap<UUID, Email> emailsList) {
+        PriorityQueue<PriorityEntry> emailsQueue = new PriorityQueue<>();
+        for(Map.Entry<UUID, Email> email : emailsList.entrySet()) {
+            emailsQueue.add(new PriorityEntry(email.getValue().getHeader().getPriority(), email.getValue()));
         }
-        return q;
-    }*/
-   public PriorityQueue<Map.Entry<String, Email>> arrange(HashMap<UUID, Email> list) {
-        PriorityQueue<Map.Entry<String, Email>> queue = new PriorityQueue<>((a, b)->(b.getValue().getHeader().getPriority()+"").compareTo(a.getValue().getHeader().getPriority()+""));
-        for (HashMap.Entry<UUID, Email> emailEntry : list.entrySet()) {
-            queue.add(new AbstractMap.SimpleEntry<>(emailEntry.getValue().getHeader().getPriority()+"", emailEntry.getValue()));
+        return addPriorityToArray(emailsQueue);
+    }
+
+    public static Email[] sortByTimestamp(HashMap<UUID, Email> emailsList) {
+        PriorityQueue<TimestampEntry> emailsQueue = new PriorityQueue<>();
+        for(Map.Entry<UUID, Email> email : emailsList.entrySet()) {
+            emailsQueue.add(new TimestampEntry(email.getValue().getHeader().getTimeStamp(), email.getValue()));
         }
-        return queue;
+        return addTimestampToArray(emailsQueue);
+    }
+
+    private static Email[] addPriorityToArray(PriorityQueue<PriorityEntry> emailsQueue) {
+        Email[] emails = new Email[emailsQueue.size()];
+        int counter = 0;
+        while(!emailsQueue.isEmpty()) {
+            emails[counter++] = emailsQueue.remove().getValue();
+        }
+        return emails;
+    }
+
+    private static Email[] addTimestampToArray(PriorityQueue<TimestampEntry> emailsQueue) {
+        Email[] emails = new Email[emailsQueue.size()];
+        int counter = 0;
+        while(!emailsQueue.isEmpty()) {
+            emails[counter++] = emailsQueue.remove().getValue();
+        }
+        return emails;
     }
 }
