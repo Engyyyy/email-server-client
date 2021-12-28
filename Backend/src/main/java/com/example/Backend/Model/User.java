@@ -14,6 +14,7 @@ public class User {
     private HashMap<UUID, Email> trash;
     private HashMap<UUID, Email> draft;
     private ArrayList<String> contacts;
+    private HashMap<String, HashMap<UUID, Email>> otherFiles;
 
     public User() {
     }
@@ -27,6 +28,7 @@ public class User {
         draft = new HashMap<UUID, Email>();
         userBasicData = new UserBasicData();
         userBasicData.setEmailAddress(emailAddress);
+        otherFiles = new HashMap<String, HashMap<UUID, Email>>();
     }
 
     public UserBasicData getUserBasicData() {
@@ -45,6 +47,8 @@ public class User {
         contacts = new ArrayList<String>();
         trash = new HashMap<UUID, Email>();
         draft = new HashMap<UUID, Email>();
+        otherFiles = new HashMap<String, HashMap<UUID, Email>>();
+
     }
 
     public String getFirstname() {
@@ -83,6 +87,11 @@ public class User {
         return receivedEmails;
     }
 
+    public void setList(String listName, HashMap<UUID, Email> list) {
+        this.otherFiles.get(listName).clear();
+        this.otherFiles.put(listName, list);
+    }
+
     public void setReceivedEmails(HashMap<UUID, Email> receivedEmails) {
         this.receivedEmails = receivedEmails;
     }
@@ -93,6 +102,14 @@ public class User {
 
     public void setAllEmails(HashMap<UUID, Email> allEmails) {
         this.allEmails = allEmails;
+    }
+
+    public HashMap<String, HashMap<UUID, Email>> getOtherFiles() {
+        return otherFiles;
+    }
+
+    public void setOtherFiles(HashMap<String, HashMap<UUID, Email>> otherFiles) {
+        this.otherFiles = otherFiles;
     }
 
     public HashMap<UUID, Email> getTrash() {

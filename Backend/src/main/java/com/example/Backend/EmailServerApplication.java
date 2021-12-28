@@ -24,7 +24,7 @@ public class EmailServerApplication {
             System.out.println(e);
             System.out.println("\nerror in loading files");
         }
-    /*    Arrange arrange = new Arrange();
+      /*  Arrange arrange = new Arrange();
         PriorityQueue<Map.Entry<String, Email>> queue = arrange.arrange(UsersList.listOfUsers.get("aliaa.ebrahem.Ahmed").getReceivedEmails());
         System.out.println("aararanged");*/
 

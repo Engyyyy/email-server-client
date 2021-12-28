@@ -24,6 +24,7 @@ public class EmailService {
             User sender = UsersList.listOfUsers.get(email.getHeader().getSenderEmailAddress());
             sender.getAllEmails().put(email.getHeader().getId(), email);
             sender.getSentEmails().put(email.getHeader().getId(), email);
+           // sender.getAllEmails().get(email.getHeader().getId()).getBody().
             Utility.update(email.getHeader().getSenderEmailAddress(), "allEmails");
             Utility.update(email.getHeader().getSenderEmailAddress(), "sentEmails");
             String[] receiversEmailAddresses = email.getHeader().getReceiversEmailAddresses();

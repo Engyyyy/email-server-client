@@ -3,10 +3,11 @@ package com.example.Backend.Factories;
 import com.example.Backend.Model.Email;
 import com.example.Backend.Model.UsersList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.UUID;
-
+@Component
 public class ListFactory implements ListFactoryI {
 
 
@@ -23,7 +24,7 @@ public class ListFactory implements ListFactoryI {
             case "trash":
                 return UsersList.listOfUsers.get(emailAdress).getTrash();
             default:
-                return null;
+                return UsersList.listOfUsers.get(emailAdress).getOtherFiles().get(listName);
         }
     }
 
@@ -45,7 +46,7 @@ public class ListFactory implements ListFactoryI {
                 UsersList.listOfUsers.get(emailAdress).setTrash(list);
                 break;
             default:
-                return;
+                UsersList.listOfUsers.get(emailAdress).setList(listName, list);
         }
     }
 }

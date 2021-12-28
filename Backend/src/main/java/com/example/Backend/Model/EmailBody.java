@@ -23,6 +23,14 @@ public class EmailBody {
         return content;
     }
 
+    public Attachment[] getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(Attachment[] attachments) {
+        this.attachments = attachments;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }

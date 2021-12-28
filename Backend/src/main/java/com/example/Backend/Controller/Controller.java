@@ -23,15 +23,14 @@ public class Controller {
     EmailService emailService = new EmailService();
     @Autowired
     RegisterServices registerServices;
-
-
+    @Autowired
+    UsersList usersList;
     @GetMapping("/login")
     public boolean login(@RequestParam String emailAddress, @RequestParam String password) throws Exception {
         try {
             registerServices.register(emailAddress, password);
             return true;
-        }
-        catch(Exception invalidEmailOrPassword) {
+        } catch (Exception invalidEmailOrPassword) {
             return false;
         }
     }
@@ -42,8 +41,37 @@ public class Controller {
         try {
             registerServices.register(firstname, lastname, emailAddress, password);
             return HttpStatus.CREATED;
+        } catch (Exception invalidEmailAddress) {
+            return HttpStatus.NOT_ACCEPTABLE;
         }
-        catch(Exception invalidEmailAddress) {
+    }
+
+    @PostMapping("/createFile")
+    public HttpStatus createFolder(@RequestParam String emailAddress, @RequestParam String fileName) {
+        try {
+            Utility.createFile(emailAddress, fileName);
+            return HttpStatus.CREATED;
+        } catch (Exception e) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @PostMapping("/moveToFile")
+    public HttpStatus moveToFile(@RequestParam String emailAddress, @RequestParam String from, @RequestParam String to, @RequestParam Email[] selectedEmails) {
+        try {
+            usersList.moveEmails(emailAddress, from, to, selectedEmails);
+            return HttpStatus.CREATED;
+        } catch (Exception e) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @PostMapping("/copyToFile")
+    public HttpStatus copyToFile(@RequestParam String emailAddress, @RequestParam String to, @RequestParam Email[] selectedEmails) {
+        try {
+            usersList.copyEmails(emailAddress, to, selectedEmails);
+            return HttpStatus.CREATED;
+        } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
         }
     }

@@ -16,6 +16,8 @@ public class Attachment {
 
     UUID attachmentId;
     String name;
+    public Attachment(){
+    }
     public Attachment(MultipartFile file) throws IOException {
         attachmentId = createFile(file);
         name = file.getOriginalFilename();
@@ -32,5 +34,29 @@ public class Attachment {
         System.out.println("CREATED");
         file.transferTo(dest.getAbsoluteFile());
         return id;
+    }
+
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
+    }
+
+    public UUID getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(UUID attachmentId) {
+        this.attachmentId = attachmentId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
