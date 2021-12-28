@@ -1,6 +1,6 @@
 package com.example.Backend.Model;
 
-import com.example.Backend.Utility.Utility;
+import com.example.Backend.FileManipulation.FileManipulation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,7 +23,7 @@ public class Attachment {
         name = file.getOriginalFilename();
     }
     private UUID createFile(MultipartFile file) throws IOException {
-        UUID id = Utility.generateId();
+        UUID id = FileManipulation.generateId();
         String dirPath = "src/main/resources/attachments/"+id;
         File dir = new File(dirPath);
         dir.mkdir();

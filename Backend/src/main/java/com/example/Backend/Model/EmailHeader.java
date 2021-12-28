@@ -1,8 +1,7 @@
 package com.example.Backend.Model;
 
-import com.example.Backend.Utility.Utility;
+import com.example.Backend.FileManipulation.FileManipulation;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ public class EmailHeader {
 
     public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, String priority) {
         this.timeStamp = new Timestamp(System.currentTimeMillis());
-        this.id = Utility.generateId();
+        this.id = FileManipulation.generateId();
         this.senderEmailAddress = senderEmailAddress;
         this.receiversEmailAddresses = receiversEmailAddresses;
         this.subject = subject;

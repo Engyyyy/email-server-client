@@ -7,11 +7,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.UUID;
+
 @Component
 public class ListFactory implements ListFactoryI {
 
 
-    public HashMap<UUID, Email> getList(String listName, String emailAdress) {
+    public HashMap<UUID, Email> getList(String listName, String emailAdress) throws Exception {
         switch (listName) {
             case "draft":
                 return UsersList.listOfUsers.get(emailAdress).getDraft();
@@ -24,11 +25,15 @@ public class ListFactory implements ListFactoryI {
             case "trash":
                 return UsersList.listOfUsers.get(emailAdress).getTrash();
             default:
-                return UsersList.listOfUsers.get(emailAdress).getOtherFiles().get(listName);
+                if (UsersList.listOfUsers.get(emailAdress).getOtherFiles().containsKey(listName)) {
+                    return UsersList.listOfUsers.get(emailAdress).getOtherFiles().get(listName);
+                } else {
+                    throw new Exception();
+                }
         }
     }
 
-    public void setList(String listName, String emailAdress, HashMap<UUID, Email> list) {
+    public void setList(String listName, String emailAdress, HashMap<UUID, Email> list) throws Exception {
         switch (listName) {
             case "draft":
                 UsersList.listOfUsers.get(emailAdress).setDraft(list);
@@ -46,7 +51,11 @@ public class ListFactory implements ListFactoryI {
                 UsersList.listOfUsers.get(emailAdress).setTrash(list);
                 break;
             default:
-                UsersList.listOfUsers.get(emailAdress).setList(listName, list);
+                if (UsersList.listOfUsers.get(emailAdress).getOtherFiles().containsKey(listName)) {
+                    UsersList.listOfUsers.get(emailAdress).setList(listName, list);
+                } else {
+                    throw new Exception();
+                }
         }
     }
 }

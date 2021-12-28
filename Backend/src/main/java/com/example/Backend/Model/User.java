@@ -88,7 +88,7 @@ public class User {
     }
 
     public void setList(String listName, HashMap<UUID, Email> list) {
-        this.otherFiles.get(listName).clear();
+        this.otherFiles.remove(listName);
         this.otherFiles.put(listName, list);
     }
 

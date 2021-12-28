@@ -1,20 +1,16 @@
 package com.example.Backend.Controller;
 
 
-import com.example.Backend.Model.Attachment;
 import com.example.Backend.Model.Email;
-import com.example.Backend.Model.User;
 import com.example.Backend.Model.UsersList;
 import com.example.Backend.Register.RegisterServices;
 import com.example.Backend.Services.EmailService;
-import com.example.Backend.Utility.Utility;
+import com.example.Backend.FileManipulation.FileManipulation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.UUID;
 
 @CrossOrigin
@@ -25,6 +21,7 @@ public class Controller {
     RegisterServices registerServices;
     @Autowired
     UsersList usersList;
+
     @GetMapping("/login")
     public boolean login(@RequestParam String emailAddress, @RequestParam String password) throws Exception {
         try {
@@ -49,7 +46,7 @@ public class Controller {
     @PostMapping("/createFile")
     public HttpStatus createFolder(@RequestParam String emailAddress, @RequestParam String fileName) {
         try {
-            Utility.createFile(emailAddress, fileName);
+            FileManipulation.createFile(emailAddress, fileName);
             return HttpStatus.CREATED;
         } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
@@ -57,7 +54,7 @@ public class Controller {
     }
 
     @PostMapping("/moveToFile")
-    public HttpStatus moveToFile(@RequestParam String emailAddress, @RequestParam String from, @RequestParam String to, @RequestParam Email[] selectedEmails) {
+    public HttpStatus moveToFile(@RequestParam String emailAddress, @RequestParam String from, @RequestParam String to, @RequestParam UUID[] selectedEmails) {
         try {
             usersList.moveEmails(emailAddress, from, to, selectedEmails);
             return HttpStatus.CREATED;
@@ -67,9 +64,9 @@ public class Controller {
     }
 
     @PostMapping("/copyToFile")
-    public HttpStatus copyToFile(@RequestParam String emailAddress, @RequestParam String to, @RequestParam Email[] selectedEmails) {
+    public HttpStatus copyToFile(@RequestParam String emailAddress, @RequestParam String to, @RequestParam String from, @RequestParam UUID[] selectedEmails) {
         try {
-            usersList.copyEmails(emailAddress, to, selectedEmails);
+            usersList.copyEmails(emailAddress, to, from, selectedEmails);
             return HttpStatus.CREATED;
         } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
@@ -83,13 +80,31 @@ public class Controller {
             emailService.sendEmail(email);
             return HttpStatus.OK;
 
-        }
-        catch (Exception fileNotCreated) {
+        } catch (Exception fileNotCreated) {
             System.out.println("Exception in send:");
             System.out.println(fileNotCreated);
             return HttpStatus.NOT_ACCEPTABLE;
         }
-
-        //emailService.sendEmail(email);
     }
+
+    @DeleteMapping("/deleteFile")
+    public HttpStatus deleteFile(@RequestParam String emailAddress, @RequestParam String fileName) {
+        try {
+            FileManipulation.deleteFile(emailAddress, fileName);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @PostMapping("/renameFile")
+    public HttpStatus renameFile(@RequestParam String emailAddress, @RequestParam String fileName, @RequestParam String newName) {
+        try {
+            FileManipulation.renameFile(emailAddress, fileName, newName);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
 }
