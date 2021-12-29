@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -19,6 +22,15 @@ public class ContactServices implements ContactServiceI{
         Contact contact = new Contact(name);
         UsersList.listOfUsers.get(emailAddress).getContacts().put(contact.getId(), contact);
         FileManipulation.update(emailAddress, "contacts");
+    }
+
+    public ArrayList<Contact> getContacts(String emailAddress) {
+        HashMap<UUID, Contact> userContacts = UsersList.listOfUsers.get(emailAddress).getContacts();
+        ArrayList<Contact> contacts = new ArrayList<>();
+        for(Map.Entry<UUID, Contact> contactEntry : userContacts.entrySet()) {
+            contacts.add(contactEntry.getValue());
+        }
+        return contacts;
     }
 
     public void addEmailAddressesToContact(String[] emailAddresses, String userEmailAddress, UUID contactId) throws Exception {
