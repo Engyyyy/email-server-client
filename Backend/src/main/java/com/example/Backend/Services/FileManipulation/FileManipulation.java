@@ -131,6 +131,7 @@ public class FileManipulation {
     }
 
     public static ArrayList<String> getFileNames(String emailAddress) throws Exception {
+        System.out.println(emailAddress);
         if(FileManipulation.validateUser(emailAddress)) {
             ArrayList<String> files = new ArrayList<>();
             HashMap<String, HashMap<UUID, Email>> fileLists = getUser(emailAddress).getOtherFiles();
@@ -139,7 +140,9 @@ public class FileManipulation {
             }
             return files;
         }
-        throw new Exception();
+        else {
+            throw new Exception();
+        }
     }
 
     public static void update(String emailAddress, String listName) throws Exception {

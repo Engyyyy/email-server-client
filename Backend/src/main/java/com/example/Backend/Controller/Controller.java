@@ -149,23 +149,33 @@ public class Controller {
     }
 
     @DeleteMapping("/deleteFile")
-    public HttpStatus deleteFile(@RequestParam String emailAddress, @RequestParam String fileName) {
+    public ArrayList<String> deleteFile(@RequestParam String emailAddress, @RequestParam String fileName) {
         try {
             FileManipulation.deleteFile(emailAddress, fileName);
-            return HttpStatus.OK;
         } catch (Exception e) {
-            return HttpStatus.NOT_ACCEPTABLE;
+        }
+        try {
+            return FileManipulation.getFileNames(emailAddress);
+        }
+        catch(Exception e) {
+            System.out.println("ERROR in: delete file: user not found");
+            return new ArrayList<>();
         }
     }
 
     @PostMapping("/renameFile")
-    public HttpStatus renameFile(@RequestParam String emailAddress, @RequestParam String fileName, @RequestParam String newName) {
+    public ArrayList<String> renameFile(@RequestParam String emailAddress, @RequestParam String fileName, @RequestParam String newName) {
         try {
             FileManipulation.renameFile(emailAddress, fileName, newName);
-            return HttpStatus.OK;
         } catch (Exception e) {
             System.out.println(Arrays.toString(e.getStackTrace()));
-            return HttpStatus.NOT_ACCEPTABLE;
+        }
+        try {
+            return FileManipulation.getFileNames(emailAddress);
+        }
+        catch(Exception e) {
+            System.out.println("ERROR in: rename file: user not found");
+            return new ArrayList<>();
         }
     }
 
