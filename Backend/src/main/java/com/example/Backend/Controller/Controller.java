@@ -1,6 +1,7 @@
 package com.example.Backend.Controller;
 
 
+import com.example.Backend.Model.Contacts.Contact;
 import com.example.Backend.Model.Email.Email;
 import com.example.Backend.Model.UsersList;
 import com.example.Backend.Services.ContactServices;
@@ -9,6 +10,8 @@ import com.example.Backend.Services.Register.RegisterServices;
 import com.example.Backend.ResponseObjects.ResponseEmail;
 import com.example.Backend.Services.EmailService;
 import com.example.Backend.Services.FileManipulation.FileManipulation;
+import com.example.Backend.Services.Searching.Search;
+import com.example.Backend.Services.Sorting.Sort;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +36,10 @@ public class Controller {
     ContactServices contactServices;
     @Autowired
     Filter filter;
+    @Autowired
+    Search search;
+    @Autowired
+    Sort sort;
 
     @GetMapping("/login")
     public boolean login(@RequestParam String emailAddress, @RequestParam String password) throws Exception {
@@ -185,11 +192,12 @@ public class Controller {
             return HttpStatus.NOT_ACCEPTABLE;
         }
     }
+
     @PostMapping("/createContactAndAddEmails")
-    public HttpStatus createContactAndAddEmails(@RequestParam String name, @RequestParam String userEmailAddress,@RequestParam String[] emailAddresses) {
+    public HttpStatus createContactAndAddEmails(@RequestParam String name, @RequestParam String userEmailAddress, @RequestParam String[] emailAddresses) {
         try {
             UUID contactId = contactServices.createContact(name, userEmailAddress).getId();
-            contactServices.addEmailAddressesToContact(emailAddresses,userEmailAddress,contactId);
+            contactServices.addEmailAddressesToContact(emailAddresses, userEmailAddress, contactId);
             return HttpStatus.OK;
         } catch (Exception fileNotCreated) {
             return HttpStatus.NOT_ACCEPTABLE;
@@ -236,5 +244,44 @@ public class Controller {
         }
     }
 
+    @GetMapping("/searchEmails")
+    public ArrayList<Email> searchEmails(@RequestParam String emailAddress, @RequestParam String searchAbout, @RequestParam String stringToBeSearched) {
+        try {
+            return search.searchEmails(emailAddress, searchAbout, stringToBeSearched);
+        } catch (Exception e) {
+            System.out.println("The searchAbout is not valid");
+            return null;
+        }
+    }
+
+    @GetMapping("/searchContacts")
+    public ArrayList<Contact> searchContacts(@RequestParam String emailAddress, @RequestParam String searchAbout, @RequestParam String stringToBeSearched) {
+        try {
+            return search.searchContacts(emailAddress, searchAbout, stringToBeSearched);
+        } catch (Exception e) {
+            System.out.println("The searchAbout is not valid");
+            return null;
+        }
+    }
+
+    @GetMapping("/sortContacts")
+    public Contact[] sortContacts(@RequestParam String emailAddress, @RequestParam String sortBy) {
+        try {
+            return sort.sort(emailAddress, sortBy);
+        } catch (Exception e) {
+            System.out.println("The sortBy is not valid");
+            return null;
+        }
+    }
+
+    @GetMapping("/sortEmails")
+    public Email[] sortEmails(@RequestParam String emailAddress, @RequestParam String sortBy, @RequestParam String listName) {
+        try {
+            return sort.sortEmail(listName, emailAddress, sortBy);
+        } catch (Exception e) {
+            System.out.println("The sortBy is not valid");
+            return null;
+        }
+    }
 
 }

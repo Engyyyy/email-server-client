@@ -2,16 +2,16 @@ package com.example.Backend.Services.Rearrangments;
 
 import com.example.Backend.Model.Email.Email;
 
-public class PriorityEntry implements Comparable<PriorityEntry>  {
-    private int key;
+public class StringEmailEntry implements Comparable<StringEmailEntry> {
+    private String key;
     private Email value;
 
-    public PriorityEntry(int key, Email value) {
+    public StringEmailEntry(String key, Email value) {
         this.key = key;
         this.value = value;
     }
 
-    public int getKey() {
+    public String getKey() {
         return key;
     }
 
@@ -20,9 +20,8 @@ public class PriorityEntry implements Comparable<PriorityEntry>  {
     }
 
     @Override
-    public int compareTo(PriorityEntry other) {
-        return Integer.compare(other.getKey(), this.getKey());
+    public int compareTo(StringEmailEntry other) {
+        return this.getKey().compareTo(other.getKey());
     }
-
 
 }
