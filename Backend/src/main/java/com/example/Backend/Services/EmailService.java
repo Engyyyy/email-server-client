@@ -6,8 +6,12 @@ import com.example.Backend.Model.User;
 import com.example.Backend.Model.UsersList;
 import com.example.Backend.FileManipulation.FileManipulation;
 import com.example.Backend.Rearrangments.Arrange;
+import com.example.Backend.ResponseObjects.ResponseEmail;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.UUID;
+import static java.lang.Math.min;
 
 public class EmailService {
     ListFactory listFactory = new ListFactory();
@@ -41,8 +45,9 @@ public class EmailService {
         }
     }
 
-    public Email[] sortEmails(String emailAddress, String list, String criteria) throws Exception {
+    private Email[] sortEmails(String emailAddress, String list, String criteria) throws Exception {
         if(!FileManipulation.validateUser(emailAddress)) {
+            System.out.println("User Not Found");
             throw new Exception();
         }
         if(criteria.equals("timestamp")) {
@@ -52,8 +57,32 @@ public class EmailService {
             return Arrange.sortByPriority(listFactory.getList(list, emailAddress));
         }
         else {
+            System.out.println("No Such Sorting Criteria");
             return new Email[0];
         }
+    }
+
+    public ArrayList<ResponseEmail> getEmails(String emailAddress, String list, String criteria, int pageNumber, int itemsPerPage) throws Exception {
+        Email[] emails = sortEmails(emailAddress, list, criteria);
+        ArrayList<ResponseEmail> requiredEmails = new ArrayList<>();
+        int start = ((pageNumber-1)*itemsPerPage);
+        System.out.println(itemsPerPage);
+        for(int i = start; i < min(emails.length, start + itemsPerPage); i++) {
+            UUID id = emails[i].getHeader().getId();
+            String senders = emails[i].getHeader().getSenderEmailAddress();
+            String[] receivers = emails[i].getHeader().getReceiversEmailAddresses();
+            long timestamp = emails[i].getHeader().getTimeStamp();
+            String subject = emails[i].getHeader().getSubject();
+            String content = emails[i].getBody().getContent();
+            ResponseEmail responseEmail = new ResponseEmail(id, senders, receivers, timestamp, subject, content);
+            requiredEmails.add(responseEmail);
+            System.out.println(i);
+        }
+        return requiredEmails;
+    }
+
+    public int getEmailsLength(String emailAddress, String list) throws Exception {
+        return listFactory.getList(list, emailAddress).keySet().size();
     }
 
 

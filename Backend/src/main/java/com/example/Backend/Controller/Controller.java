@@ -6,6 +6,7 @@ import com.example.Backend.Model.User;
 import com.example.Backend.Model.UsersList;
 import com.example.Backend.Rearrangments.Arrange;
 import com.example.Backend.Register.RegisterServices;
+import com.example.Backend.ResponseObjects.ResponseEmail;
 import com.example.Backend.Services.EmailService;
 import com.example.Backend.FileManipulation.FileManipulation;
 import org.json.JSONArray;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.UUID;
@@ -96,15 +98,24 @@ public class Controller {
         }
     }
 
-    @GetMapping("/sort")
-    public Email[] sortEmails(@RequestParam String emailAddress, @RequestParam String list, @RequestParam String criteria) {
+    @GetMapping("/getEmails")
+    public ArrayList<ResponseEmail> getEmails(@RequestParam String emailAddress, @RequestParam String list, @RequestParam String criteria, @RequestParam int pageNumber, @RequestParam int itemsPerPage) {
         try {
-            return emailService.sortEmails(emailAddress, list, criteria);
+            return emailService.getEmails(emailAddress, list, criteria, pageNumber, itemsPerPage);
         }
-        catch(Exception userNotFound) {
-            System.out.println("Exception in sort: USER NOT FOUND");
-            System.out.println(userNotFound);
-            return new Email[0];
+        catch(Exception exception) {
+            return new ArrayList<>();
+        }
+    }
+
+    @GetMapping("/getLength")
+    public int getLength(@RequestParam String emailAddress, @RequestParam String list) {
+        try {
+            return emailService.getEmailsLength(emailAddress, list);
+        }
+        catch(Exception exception) {
+            System.out.println("User Not Found");
+            return 0;
         }
     }
 
