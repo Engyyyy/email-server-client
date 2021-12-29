@@ -21,7 +21,7 @@ import java.util.UUID;
 public class FileManipulation {
 
     private static final ObjectMapper mapper = new ObjectMapper();
-    public static final String[] attributes = new String[]{"allEmails", "contacts", "draft", "receivedEmails", "sentEmails", "trash", "userBasicData"};
+    public static final String[] attributes = new String[]{"allEmails", "contacts", "draft", "receivedEmails", "sentEmails", "trash", "userBasicData", "filterFolders"};
     private static final ListFactory listFactory = new ListFactory();
 
 
@@ -58,6 +58,10 @@ public class FileManipulation {
                     HashMap<UUID, Contact> contacts = mapper.readValue(new File(subPath), new TypeReference<>() {
                     });
                     getUser(emailAddress).setContacts(contacts);
+                } else if (fileName.equals("filterFolders.json")) {
+                    ArrayList<String> list = mapper.readValue(new File(subPath), new TypeReference<>() {
+                    });
+                    getUser(emailAddress).setFilterFolders(list);
                 } else {
                     fileName = fileName.replaceAll(".json", "");
                     HashMap<UUID, Email> list = mapper.readValue(new File(subPath), new TypeReference<>() {
@@ -104,9 +108,11 @@ public class FileManipulation {
             File myObj = new File(path + i + ".json");
             if (!myObj.createNewFile()) throw new Exception();
             if (i.equals("contacts")) {
-                mapper.writeValue(new FileWriter(path + i + ".json"), new HashMap<UUID,Contact>());
+                mapper.writeValue(new FileWriter(path + i + ".json"), new HashMap<UUID, Contact>());
             } else if (i.equals("userBasicData")) {
                 mapper.writeValue(new FileWriter(path + i + ".json"), emptyUserBasicData);
+            } else if (i.equals("filterFolders")) {
+                mapper.writeValue(new FileWriter(path + i + ".json"), new ArrayList<String>());
             } else {
                 mapper.writeValue(new FileWriter(path + i + ".json"), emptyMap);
             }
@@ -120,13 +126,14 @@ public class FileManipulation {
         File myObj = new File(path);
         if (!myObj.createNewFile()) throw new Exception();
         mapper.writeValue(new FileWriter(path), map);
-
     }
 
     public static void update(String emailAddress, String listName) throws Exception {
         Object list;
         if (listName.equals("contacts")) {
             list = UsersList.listOfUsers.get(emailAddress).getContacts();
+        } else if (listName.equals("filterFolders")) {
+            list = UsersList.listOfUsers.get(emailAddress).getFilterFolders();
         } else {
             list = listFactory.getList(listName, emailAddress);
         }

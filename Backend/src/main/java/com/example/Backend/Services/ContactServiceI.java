@@ -1,9 +1,11 @@
 package com.example.Backend.Services;
 
+import com.example.Backend.Model.Contacts.Contact;
+
 import java.util.UUID;
 
 public interface ContactServiceI {
-    public void createContact(String name, String emailAddress) throws Exception;
+    public Contact createContact(String name, String emailAddress) throws Exception;
 
     public void addEmailAddressesToContact(String[] emailAddresses, String userEmailAddress, UUID contactId) throws Exception;
 

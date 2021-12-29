@@ -18,6 +18,7 @@ public class User {
     private HashMap<UUID, Email> draft;
     private HashMap<UUID, Contact> contacts;
     private HashMap<String, HashMap<UUID, Email>> otherFiles;
+    private ArrayList<String> filterFolders;
 
     public User() {
     }
@@ -32,6 +33,15 @@ public class User {
         userBasicData = new UserBasicData();
         userBasicData.setEmailAddress(emailAddress);
         otherFiles = new HashMap<String, HashMap<UUID, Email>>();
+        filterFolders = new ArrayList<>();
+    }
+
+    public ArrayList<String> getFilterFolders() {
+        return filterFolders;
+    }
+
+    public void setFilterFolders(ArrayList<String> filterFolders) {
+        this.filterFolders = filterFolders;
     }
 
     public UserBasicData getUserBasicData() {
@@ -51,6 +61,7 @@ public class User {
         trash = new HashMap<UUID, Email>();
         draft = new HashMap<UUID, Email>();
         otherFiles = new HashMap<String, HashMap<UUID, Email>>();
+        filterFolders = new ArrayList<>();
 
     }
 
