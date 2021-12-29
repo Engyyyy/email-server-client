@@ -1,6 +1,6 @@
-package com.example.Backend.Register;
+package com.example.Backend.Services.Register;
 
-import com.example.Backend.Model.User;
+import com.example.Backend.Model.Users.User;
 import com.example.Backend.Model.UsersList;
 
 

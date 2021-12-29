@@ -1,17 +1,17 @@
-package com.example.Backend.FileManipulation;
+package com.example.Backend.Services.FileManipulation;
 
-import com.example.Backend.Model.Email;
-import com.example.Backend.Model.User;
-import com.example.Backend.Model.UserBasicData;
+import com.example.Backend.Model.Contacts.Contact;
+import com.example.Backend.Model.Email.Email;
+import com.example.Backend.Model.Users.User;
+import com.example.Backend.Model.Users.UserBasicData;
 import com.example.Backend.Model.UsersList;
-import com.example.Backend.Factories.ListFactory;
+import com.example.Backend.Services.Factories.ListFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class FileManipulation {
 
     private static final ObjectMapper mapper = new ObjectMapper();
-    private static final String[] attributes = new String[]{"allEmails", "contacts", "draft", "receivedEmails", "sentEmails", "trash", "userBasicData"};
+    public static final String[] attributes = new String[]{"allEmails", "contacts", "draft", "receivedEmails", "sentEmails", "trash", "userBasicData"};
     private static final ListFactory listFactory = new ListFactory();
 
 
@@ -34,6 +34,7 @@ public class FileManipulation {
         }
         return false;
     }
+
 
     public static void loadListOfUsers() throws Exception {
         String path = "src/main/resources/DB";
@@ -54,7 +55,7 @@ public class FileManipulation {
                     });
                     getUser(emailAddress).setUserBasicData(userBasicData);
                 } else if (fileName.equals("contacts.json")) {
-                    ArrayList<String> contacts = mapper.readValue(new File(subPath), new TypeReference<>() {
+                    HashMap<UUID, Contact> contacts = mapper.readValue(new File(subPath), new TypeReference<>() {
                     });
                     getUser(emailAddress).setContacts(contacts);
                 } else {
@@ -75,7 +76,7 @@ public class FileManipulation {
         return UsersList.listOfUsers.get(emailAddress);
     }
 
-    private static boolean checkBasicFiles(String fileName) {
+    public static boolean checkBasicFiles(String fileName) {
         for (String i : attributes) {
             if (i.equals(fileName)) return true;
         }
@@ -97,14 +98,13 @@ public class FileManipulation {
         String path = "src/main/resources/DB/" + emailAddress;
         HashMap<UUID, Email> emptyMap = new HashMap<>();
         UserBasicData emptyUserBasicData = new UserBasicData();
-        ArrayList<String> emptyArray = new ArrayList<>();
         Files.createDirectories(Paths.get(path));
         path += "/";
         for (String i : attributes) {
             File myObj = new File(path + i + ".json");
             if (!myObj.createNewFile()) throw new Exception();
             if (i.equals("contacts")) {
-                mapper.writeValue(new FileWriter(path + i + ".json"), emptyArray);
+                mapper.writeValue(new FileWriter(path + i + ".json"), new HashMap<UUID,Contact>());
             } else if (i.equals("userBasicData")) {
                 mapper.writeValue(new FileWriter(path + i + ".json"), emptyUserBasicData);
             } else {
@@ -124,10 +124,16 @@ public class FileManipulation {
     }
 
     public static void update(String emailAddress, String listName) throws Exception {
-        Object list = listFactory.getList(listName, emailAddress);
+        Object list;
+        if (listName.equals("contacts")) {
+            list = UsersList.listOfUsers.get(emailAddress).getContacts();
+        } else {
+            list = listFactory.getList(listName, emailAddress);
+        }
         String path = "src/main/resources/DB/" + emailAddress + "/" + listName + ".json";
         mapper.writeValue(new FileWriter(path), list);
     }
+
 
     public static UUID generateId() {
         return UUID.randomUUID();
@@ -177,5 +183,6 @@ public class FileManipulation {
         }
         listFactory.setList(from, emailAddress, list);
     }
+
 
 }

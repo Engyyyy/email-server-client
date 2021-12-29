@@ -1,8 +1,6 @@
-package com.example.Backend.Filter;
+package com.example.Backend.Services.Filter;
 
-import com.example.Backend.Model.Email;
-import com.example.Backend.Model.User;
-import com.example.Backend.Model.UsersList;
+import com.example.Backend.Model.Email.Email;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

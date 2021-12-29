@@ -1,33 +1,34 @@
 package com.example.Backend.Controller;
 
 
-import com.example.Backend.Model.Email;
-import com.example.Backend.Model.User;
+import com.example.Backend.Model.Email.Email;
 import com.example.Backend.Model.UsersList;
-import com.example.Backend.Rearrangments.Arrange;
-import com.example.Backend.Register.RegisterServices;
+import com.example.Backend.Services.ContactServices;
+import com.example.Backend.Services.Register.RegisterServices;
 import com.example.Backend.ResponseObjects.ResponseEmail;
 import com.example.Backend.Services.EmailService;
-import com.example.Backend.FileManipulation.FileManipulation;
-import org.json.JSONArray;
+import com.example.Backend.Services.FileManipulation.FileManipulation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.Arrays;
 import java.util.UUID;
 
 @CrossOrigin
 @RestController
 public class Controller {
-    EmailService emailService = new EmailService();
+
     @Autowired
     RegisterServices registerServices;
     @Autowired
     UsersList usersList;
+    @Autowired
+    EmailService emailService;
+    @Autowired
+    ContactServices contactServices;
 
     @GetMapping("/login")
     public boolean login(@RequestParam String emailAddress, @RequestParam String password) throws Exception {
@@ -63,7 +64,7 @@ public class Controller {
     @PostMapping("/moveToFile")
     public HttpStatus moveToFile(@RequestParam String emailAddress, @RequestParam String from, @RequestParam String to, @RequestParam UUID[] selectedEmails) {
         try {
-            usersList.moveEmails(emailAddress, from, to, selectedEmails);
+            emailService.moveEmails(emailAddress, from, to, selectedEmails);
             return HttpStatus.CREATED;
         } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
@@ -73,7 +74,7 @@ public class Controller {
     @PostMapping("/copyToFile")
     public HttpStatus copyToFile(@RequestParam String emailAddress, @RequestParam String to, @RequestParam String from, @RequestParam UUID[] selectedEmails) {
         try {
-            usersList.copyEmails(emailAddress, to, from, selectedEmails);
+            emailService.copyEmails(emailAddress, to, from, selectedEmails);
             return HttpStatus.CREATED;
         } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
@@ -81,13 +82,10 @@ public class Controller {
     }
 
     @PostMapping("/send")
-    public HttpStatus send(@RequestParam String senderEmail, @RequestParam JSONArray receiversEmails, @RequestParam String subject, @RequestParam String message, @RequestBody MultipartFile[] attachments, @RequestParam int priority) {
+    public HttpStatus send(@RequestParam String senderEmail, @RequestParam String[] receiversEmails, @RequestParam String subject, @RequestParam String message, @RequestBody MultipartFile[] attachments, @RequestParam String priority) {
         try {
-            String[] receivers = new String[receiversEmails.length()];
-            for(int i = 0; i < receivers.length; i++) {
-                receivers[i] = receiversEmails.getString(i);
-            }
-            Email email = emailService.createEmail(senderEmail, receivers, subject, message, priority, attachments);
+            int integerPriority = emailService.getIntegerPriority(priority);
+            Email email = emailService.createEmail(senderEmail, receiversEmails, subject, message, integerPriority, attachments);
             emailService.sendEmail(email);
             return HttpStatus.OK;
 
@@ -135,6 +133,7 @@ public class Controller {
             FileManipulation.renameFile(emailAddress, fileName, newName);
             return HttpStatus.OK;
         } catch (Exception e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
             return HttpStatus.NOT_ACCEPTABLE;
         }
     }
@@ -142,7 +141,7 @@ public class Controller {
     @DeleteMapping("/deleteEmail")
     public HttpStatus deleteEmail(@RequestParam String emailAddress, @RequestParam String listName, @RequestParam UUID[] emailsId) {
         try {
-            usersList.bulkDeletion(emailAddress, listName, emailsId);
+            emailService.bulkDeletion(emailAddress, listName, emailsId);
             return HttpStatus.OK;
         } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
@@ -152,11 +151,64 @@ public class Controller {
     @GetMapping("/retrieveEmail")
     public HttpStatus retrieveEmail(@RequestParam String emailAddress, @RequestParam UUID[] emailsId) {
         try {
-            usersList.bulkRetrieval(emailAddress, emailsId);
+            emailService.bulkRetrieval(emailAddress, emailsId);
             return HttpStatus.OK;
         } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
         }
     }
+
+    @PostMapping("/saveToDraft")
+    public HttpStatus saveToDraft(@RequestParam String senderEmail, @RequestParam String[] receiversEmails, @RequestParam String subject, @RequestParam String message, @RequestBody MultipartFile[] attachments, @RequestParam String priority) {
+        try {
+            int integerPriority = emailService.getIntegerPriority(priority);
+            Email email = emailService.createEmail(senderEmail, receiversEmails, subject, message, integerPriority, attachments);
+            emailService.saveToDraft(email);
+            return HttpStatus.OK;
+        } catch (Exception fileNotCreated) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @PostMapping("/createContact")
+    public HttpStatus createContact(@RequestParam String name, @RequestParam String userEmailAddress) {
+        try {
+            contactServices.createContact(name, userEmailAddress);
+            return HttpStatus.OK;
+        } catch (Exception fileNotCreated) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @PostMapping("/addEmailAddressesToContact")
+    public HttpStatus addEmailAddressesToContact(@RequestParam String[] emailAddresses, @RequestParam String userEmailAddress, @RequestParam UUID contactId) {
+        try {
+            contactServices.addEmailAddressesToContact(emailAddresses, userEmailAddress, contactId);
+            return HttpStatus.OK;
+        } catch (Exception fileNotCreated) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @DeleteMapping("/deleteContact")
+    public HttpStatus deleteContact(@RequestParam String userEmailAddress, @RequestParam UUID contactId) {
+        try {
+            contactServices.deleteContact(userEmailAddress, contactId);
+            return HttpStatus.OK;
+        } catch (Exception fileNotCreated) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @PostMapping("/renameContact")
+    public HttpStatus renameContact(@RequestParam String emailAddress, @RequestParam UUID contactId, String newName) {
+        try {
+            contactServices.renameContact(emailAddress, contactId, newName);
+            return HttpStatus.OK;
+        } catch (Exception fileNotCreated) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
 
 }

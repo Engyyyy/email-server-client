@@ -1,6 +1,6 @@
-package com.example.Backend.Filter;
+package com.example.Backend.Services.Filter;
 
-import com.example.Backend.Model.Email;
+import com.example.Backend.Model.Email.Email;
 
 import java.util.ArrayList;
 import java.util.HashMap;

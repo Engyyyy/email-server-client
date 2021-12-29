@@ -1,18 +1,20 @@
-package com.example.Backend.Register;
+package com.example.Backend.Services.Register;
 
-import com.example.Backend.Model.User;
+import com.example.Backend.Model.Users.User;
 import com.example.Backend.Model.UsersList;
+import com.example.Backend.Services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.UUID;
 
 @Component
 public class RegisterServices {
 
     LoginService loginService;
     SignUpServices signUpServices;
+    @Autowired
+    UsersList usersList;
+    @Autowired
+    EmailService emailService;
 
     public RegisterServices() {
         loginService = new LoginService();
@@ -22,6 +24,7 @@ public class RegisterServices {
 
     public User register(String emailAddress, String password) throws Exception {
         try {
+            emailService.checkTrash(emailAddress);
             return loginService.login(emailAddress, password);
         } catch (Exception invalidEmailAddress) {
             System.out.println("Enter a valid e-mail address.");

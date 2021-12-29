@@ -1,4 +1,4 @@
-package com.example.Backend.Model;
+package com.example.Backend.Model.Users;
 
 public class UserBasicData {
     private String firstname;

@@ -1,8 +1,7 @@
-package com.example.Backend.Factories;
+package com.example.Backend.Services.Factories;
 
-import com.example.Backend.Model.Email;
+import com.example.Backend.Model.Email.Email;
 import com.example.Backend.Model.UsersList;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

@@ -1,8 +1,8 @@
-package com.example.Backend.Register;
+package com.example.Backend.Services.Register;
 
-import com.example.Backend.Model.User;
+import com.example.Backend.Model.Users.User;
 import com.example.Backend.Model.UsersList;
-import com.example.Backend.FileManipulation.FileManipulation;
+import com.example.Backend.Services.FileManipulation.FileManipulation;
 
 public class SignUpServices {
     UsersList usersList;

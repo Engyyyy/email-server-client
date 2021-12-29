@@ -1,5 +1,6 @@
-package com.example.Backend.Model;
+package com.example.Backend.Model.Email;
 
+import com.example.Backend.Model.TrashProperties;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

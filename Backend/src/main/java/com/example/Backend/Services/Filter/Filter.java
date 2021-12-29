@@ -1,6 +1,6 @@
-package com.example.Backend.Filter;
+package com.example.Backend.Services.Filter;
 
-import com.example.Backend.Model.Email;
+import com.example.Backend.Model.Email.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

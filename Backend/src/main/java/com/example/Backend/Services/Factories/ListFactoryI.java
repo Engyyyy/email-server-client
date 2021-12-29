@@ -1,6 +1,6 @@
-package com.example.Backend.Factories;
+package com.example.Backend.Services.Factories;
 
-import com.example.Backend.Model.Email;
+import com.example.Backend.Model.Email.Email;
 
 import java.util.HashMap;
 import java.util.UUID;

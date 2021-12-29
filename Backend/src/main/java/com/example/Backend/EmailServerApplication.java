@@ -1,17 +1,17 @@
 package com.example.Backend;
 
-import com.example.Backend.FileManipulation.FileManipulation;
+import com.example.Backend.Services.FileManipulation.FileManipulation;
+import com.example.Backend.Model.UsersList;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.io.IOException;
 
 
 @SpringBootApplication
 public class EmailServerApplication {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
         SpringApplication.run(EmailServerApplication.class, args);
+        UsersList usersList = new UsersList();
         try {
             FileManipulation.loadListOfUsers();
             System.out.println("loaded");

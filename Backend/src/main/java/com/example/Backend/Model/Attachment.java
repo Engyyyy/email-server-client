@@ -1,6 +1,6 @@
 package com.example.Backend.Model;
 
-import com.example.Backend.FileManipulation.FileManipulation;
+import com.example.Backend.Services.FileManipulation.FileManipulation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 

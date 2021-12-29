@@ -1,8 +1,12 @@
-package com.example.Backend.Rearrangments;
+package com.example.Backend.Services.Rearrangments;
 
-import com.example.Backend.Model.Email;
+import com.example.Backend.Model.Email.Email;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.UUID;
+
 
 public class Arrange {
 

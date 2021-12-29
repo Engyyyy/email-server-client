@@ -1,6 +1,6 @@
-package com.example.Backend.Rearrangments;
+package com.example.Backend.Services.Rearrangments;
 
-import com.example.Backend.Model.Email;
+import com.example.Backend.Model.Email.Email;
 
 public class PriorityEntry implements Comparable<PriorityEntry>  {
     private int key;

@@ -1,8 +1,6 @@
-package com.example.Backend.Rearrangments;
+package com.example.Backend.Services.Rearrangments;
 
-import com.example.Backend.Model.Email;
-
-import java.sql.Timestamp;
+import com.example.Backend.Model.Email.Email;
 
 public class TimestampEntry implements Comparable<TimestampEntry>  {
     private long key;

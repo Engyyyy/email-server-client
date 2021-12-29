@@ -1,5 +1,8 @@
-package com.example.Backend.Model;
+package com.example.Backend.Model.Users;
 
+
+import com.example.Backend.Model.Contacts.Contact;
+import com.example.Backend.Model.Email.Email;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +16,7 @@ public class User {
     private HashMap<UUID, Email> allEmails;
     private HashMap<UUID, Email> trash;
     private HashMap<UUID, Email> draft;
-    private ArrayList<String> contacts;
+    private HashMap<UUID, Contact> contacts;
     private HashMap<String, HashMap<UUID, Email>> otherFiles;
 
     public User() {
@@ -23,7 +26,7 @@ public class User {
         sentEmails = new HashMap<UUID, Email>();
         receivedEmails = new HashMap<UUID, Email>();
         allEmails = new HashMap<UUID, Email>();
-        contacts = new ArrayList<String>();
+        contacts = new HashMap<>();
         trash = new HashMap<UUID, Email>();
         draft = new HashMap<UUID, Email>();
         userBasicData = new UserBasicData();
@@ -44,7 +47,7 @@ public class User {
         sentEmails = new HashMap<UUID, Email>();
         receivedEmails = new HashMap<UUID, Email>();
         allEmails = new HashMap<UUID, Email>();
-        contacts = new ArrayList<String>();
+        contacts = new HashMap<>();
         trash = new HashMap<UUID, Email>();
         draft = new HashMap<UUID, Email>();
         otherFiles = new HashMap<String, HashMap<UUID, Email>>();
@@ -136,11 +139,11 @@ public class User {
         this.userBasicData.setPassword(password);
     }
 
-    public ArrayList<String> getContacts() {
+    public HashMap<UUID, Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(ArrayList<String> contacts) {
+    public void setContacts(HashMap<UUID, Contact> contacts) {
         this.contacts = contacts;
     }
 }

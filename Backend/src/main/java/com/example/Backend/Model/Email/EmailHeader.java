@@ -1,11 +1,13 @@
-package com.example.Backend.Model;
+package com.example.Backend.Model.Email;
 
-import com.example.Backend.FileManipulation.FileManipulation;
+import com.example.Backend.Services.FileManipulation.FileManipulation;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class EmailHeader {
     private UUID id;
+    private Date startDate;
     private long timeStamp;
     private String senderEmailAddress;
     private String[] receiversEmailAddresses;
@@ -13,9 +15,17 @@ public class EmailHeader {
     private int priority;
 
 
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public EmailHeader(String senderEmailAddress, String[] receiversEmailAddresses, String subject, int priority) {
         this.timeStamp = System.currentTimeMillis();
+        this.startDate = new Date(timeStamp);
         this.id = FileManipulation.generateId();
         this.senderEmailAddress = senderEmailAddress;
         this.receiversEmailAddresses = receiversEmailAddresses;
@@ -26,12 +36,12 @@ public class EmailHeader {
     public EmailHeader() {
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public void setSenderEmailAddress(String senderEmailAddress) {

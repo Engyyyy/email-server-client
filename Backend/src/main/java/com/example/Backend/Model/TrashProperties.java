@@ -1,15 +1,16 @@
 package com.example.Backend.Model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class TrashProperties {
     private  String initialList;
-    private long timestamp;
+    private Date startDate;
 
     TrashProperties(){}
     public TrashProperties(String initialList) {
         this.initialList = initialList;
-        this.timestamp = System.currentTimeMillis();
+        this.startDate = new Date();
     }
 
     public String getInitialList() {
@@ -20,11 +21,11 @@ public class TrashProperties {
         this.initialList = initialList;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 }
