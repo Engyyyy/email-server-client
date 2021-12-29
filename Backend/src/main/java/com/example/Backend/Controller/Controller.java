@@ -91,9 +91,14 @@ public class Controller {
 
 
     @PostMapping("/moveToFile")
-    public HttpStatus moveToFile(@RequestParam String emailAddress, @RequestParam String from, @RequestParam String to, @RequestParam UUID[] selectedEmails) {
+    public HttpStatus moveToFile(@RequestParam String emailAddress, @RequestParam String from, @RequestParam String to, @RequestParam JSONArray selectedEmails) {
         try {
-            emailService.moveEmails(emailAddress, from, to, selectedEmails);
+            UUID[] ids = new UUID[selectedEmails.length()];
+            for(int i = 0; i < ids.length; i++) {
+                System.out.println("ID = " + selectedEmails.get(i));
+                ids[i] = UUID.fromString(selectedEmails.getString(i));
+            }
+            emailService.moveEmails(emailAddress, from, to, ids);
             return HttpStatus.CREATED;
         } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
@@ -101,9 +106,14 @@ public class Controller {
     }
 
     @PostMapping("/copyToFile")
-    public HttpStatus copyToFile(@RequestParam String emailAddress, @RequestParam String to, @RequestParam String from, @RequestParam UUID[] selectedEmails) {
+    public HttpStatus copyToFile(@RequestParam String emailAddress, @RequestParam String to, @RequestParam String from, @RequestParam JSONArray selectedEmails) {
         try {
-            emailService.copyEmails(emailAddress, to, from, selectedEmails);
+            UUID[] ids = new UUID[selectedEmails.length()];
+            for(int i = 0; i < ids.length; i++) {
+                System.out.println("ID = " + selectedEmails.get(i));
+                ids[i] = UUID.fromString(selectedEmails.getString(i));
+            }
+            emailService.copyEmails(emailAddress, to, from, ids);
             return HttpStatus.CREATED;
         } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
@@ -113,8 +123,11 @@ public class Controller {
     @PostMapping("/send")
     public HttpStatus send(@RequestParam String senderEmail, @RequestParam JSONArray receiversEmails, @RequestParam String subject, @RequestParam String message, @RequestBody MultipartFile[] attachments, @RequestParam String priority) {
         try {
+            System.out.println(receiversEmails.length());
             String[] receivers = new String[receiversEmails.length()];
+            System.out.println("RECEIVER");
             for(int i = 0; i < receivers.length; i++) {
+                System.out.println(receiversEmails.getString(i));
                 receivers[i] = receiversEmails.getString(i);
             }
             int integerPriority = emailService.getIntegerPriority(priority);
@@ -179,7 +192,8 @@ public class Controller {
         try {
             UUID[] ids = new UUID[emailsId.length()];
             for(int i = 0; i < ids.length; i++) {
-                ids[i] = (UUID) emailsId.get(i);
+                System.out.println("ID = " + emailsId.get(i));
+                ids[i] = UUID.fromString(emailsId.getString(i));
             }
             emailService.bulkDeletion(emailAddress, listName, ids);
             return HttpStatus.OK;
