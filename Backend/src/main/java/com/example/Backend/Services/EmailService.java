@@ -189,7 +189,7 @@ public class EmailService {
             case "low":
                 return 4;
             default:
-                throw new Exception();
+                return 0;
         }
     }
 
