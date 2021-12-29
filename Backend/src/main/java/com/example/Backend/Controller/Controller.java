@@ -69,8 +69,26 @@ public class Controller {
         } catch (Exception e) {
             System.out.println("ERROR in: create file: File already exists");
         }
-        return FileManipulation.getFileNames(emailAddress);
+        try {
+            return FileManipulation.getFileNames(emailAddress);
+        }
+        catch(Exception e) {
+            System.out.println("ERROR in: create file: user not found");
+            return new ArrayList<>();
+        }
     }
+
+    @GetMapping("/getFolders")
+    public ArrayList<String> getFolders(@RequestParam String emailAddress) {
+        try {
+            return FileManipulation.getFileNames(emailAddress);
+        }
+        catch(Exception e) {
+            System.out.println("ERROR in: get files: user not found");
+            return new ArrayList<>();
+        }
+    }
+
 
     @PostMapping("/moveToFile")
     public HttpStatus moveToFile(@RequestParam String emailAddress, @RequestParam String from, @RequestParam String to, @RequestParam UUID[] selectedEmails) {
@@ -194,10 +212,14 @@ public class Controller {
     }
 
     @PostMapping("/createContactAndAddEmails")
-    public HttpStatus createContactAndAddEmails(@RequestParam String name, @RequestParam String userEmailAddress, @RequestParam String[] emailAddresses) {
+    public HttpStatus createContactAndAddEmails(@RequestParam String name, @RequestParam String userEmailAddress, @RequestParam JSONArray emailAddresses) {
         try {
+            String[] emails = new String[emailAddresses.length()];
+            for(int i = 0; i < emails.length; i++) {
+                emails[i] = emailAddresses.getString(i);
+            }
             UUID contactId = contactServices.createContact(name, userEmailAddress).getId();
-            contactServices.addEmailAddressesToContact(emailAddresses, userEmailAddress, contactId);
+            contactServices.addEmailAddressesToContact(emails, userEmailAddress, contactId);
             return HttpStatus.OK;
         } catch (Exception fileNotCreated) {
             return HttpStatus.NOT_ACCEPTABLE;
