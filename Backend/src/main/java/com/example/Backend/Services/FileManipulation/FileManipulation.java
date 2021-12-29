@@ -12,10 +12,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class FileManipulation {
@@ -126,6 +128,15 @@ public class FileManipulation {
         File myObj = new File(path);
         if (!myObj.createNewFile()) throw new Exception();
         mapper.writeValue(new FileWriter(path), map);
+    }
+
+    public static ArrayList<String> getFileNames(String emailAddress) {
+        ArrayList<String> files = new ArrayList<>();
+        HashMap<String, HashMap<UUID, Email>> fileLists = getUser(emailAddress).getOtherFiles();
+        for(Map.Entry<String, HashMap<UUID, Email>> fileEntry : fileLists.entrySet()) {
+            files.add(fileEntry.getKey());
+        }
+        return files;
     }
 
     public static void update(String emailAddress, String listName) throws Exception {

@@ -63,13 +63,13 @@ public class Controller {
     }
 
     @PostMapping("/createFile")
-    public HttpStatus createFolder(@RequestParam String emailAddress, @RequestParam String fileName) {
+    public ArrayList<String> createFolder(@RequestParam String emailAddress, @RequestParam String fileName) {
         try {
             FileManipulation.createFile(emailAddress, fileName);
-            return HttpStatus.CREATED;
         } catch (Exception e) {
-            return HttpStatus.NOT_ACCEPTABLE;
+            System.out.println("ERROR in: create file: File already exists");
         }
+        return FileManipulation.getFileNames(emailAddress);
     }
 
     @PostMapping("/moveToFile")
@@ -281,6 +281,16 @@ public class Controller {
         } catch (Exception e) {
             System.out.println("The sortBy is not valid");
             return null;
+        }
+    }
+
+    @GetMapping("/getContacts")
+    public ArrayList<Contact> getContacts(@RequestParam String emailAddress) {
+        try {
+            return contactServices.getContacts(emailAddress);
+        }
+        catch(Exception exception) {
+            return new ArrayList<>();
         }
     }
 

@@ -14,6 +14,10 @@ public class Contact {
         this.emailAddress = new ArrayList<>();
     }
 
+    public Contact() {
+
+    }
+
     public UUID getId() {
         return id;
     }

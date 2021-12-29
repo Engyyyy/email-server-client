@@ -22,15 +22,15 @@ public class EmailServerApplication {
             System.out.println(e);
             System.out.println("\nerror in loading files");
         }
-        Email[] res = Arrange.sortBySender(UsersList.listOfUsers.get("aliaa").getAllEmails());
-        Email[] res1 = Arrange.sortByContent(UsersList.listOfUsers.get("aliaa").getAllEmails());
-        Email[] res2 = Arrange.sortByNumberOfAttachments(UsersList.listOfUsers.get("aliaa").getAllEmails());
-        Email[] res3 = Arrange.sortByNumberOfReceivers(UsersList.listOfUsers.get("aliaa").getAllEmails());
-        Email[] res4 = Arrange.sortByPriority(UsersList.listOfUsers.get("aliaa").getAllEmails());
-        Email[] res5 = Arrange.sortBySubject(UsersList.listOfUsers.get("aliaa").getAllEmails());
-        Email[] res6 = Arrange.sortByTimestamp(UsersList.listOfUsers.get("aliaa").getAllEmails());
-
-        System.out.println("lalalala");
+//        Email[] res = Arrange.sortBySender(UsersList.listOfUsers.get("aliaa").getAllEmails());
+//        Email[] res1 = Arrange.sortByContent(UsersList.listOfUsers.get("aliaa").getAllEmails());
+//        Email[] res2 = Arrange.sortByNumberOfAttachments(UsersList.listOfUsers.get("aliaa").getAllEmails());
+//        Email[] res3 = Arrange.sortByNumberOfReceivers(UsersList.listOfUsers.get("aliaa").getAllEmails());
+//        Email[] res4 = Arrange.sortByPriority(UsersList.listOfUsers.get("aliaa").getAllEmails());
+//        Email[] res5 = Arrange.sortBySubject(UsersList.listOfUsers.get("aliaa").getAllEmails());
+//        Email[] res6 = Arrange.sortByTimestamp(UsersList.listOfUsers.get("aliaa").getAllEmails());
+//
+//        System.out.println("lalalala");
     }
 
 }

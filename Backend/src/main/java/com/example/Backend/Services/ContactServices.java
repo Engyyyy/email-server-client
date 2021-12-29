@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -20,6 +23,21 @@ public class ContactServices implements ContactServiceI {
         UsersList.listOfUsers.get(emailAddress).getContacts().put(contact.getId(), contact);
         FileManipulation.update(emailAddress, "contacts");
         return contact;
+    }
+
+    public ArrayList<Contact> getContacts(String email) throws Exception {
+        if(FileManipulation.validateUser(email)) {
+            HashMap<UUID, Contact> contacts = UsersList.listOfUsers.get(email).getContacts();
+            ArrayList<Contact> contactsArray = new ArrayList<>();
+            for (Map.Entry<UUID, Contact> contactEntry : contacts.entrySet()) {
+                contactsArray.add(contactEntry.getValue());
+            }
+            return contactsArray;
+        }
+        else {
+            System.out.println("ERROR in get contacts: User Not Found");
+            throw new Exception();
+        }
     }
 
     public void addEmailAddressesToContact(String[] emailAddresses, String userEmailAddress, UUID contactId) throws Exception {
