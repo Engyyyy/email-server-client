@@ -1,6 +1,7 @@
 package com.example.Backend.Controller;
 
 
+import com.example.Backend.Model.Contacts.Contact;
 import com.example.Backend.Model.Email.Email;
 import com.example.Backend.Model.UsersList;
 import com.example.Backend.Services.ContactServices;
@@ -9,6 +10,7 @@ import com.example.Backend.Services.Register.RegisterServices;
 import com.example.Backend.ResponseObjects.ResponseEmail;
 import com.example.Backend.Services.EmailService;
 import com.example.Backend.Services.FileManipulation.FileManipulation;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -85,10 +87,14 @@ public class Controller {
     }
 
     @PostMapping("/send")
-    public HttpStatus send(@RequestParam String senderEmail, @RequestParam String[] receiversEmails, @RequestParam String subject, @RequestParam String message, @RequestBody MultipartFile[] attachments, @RequestParam String priority) {
+    public HttpStatus send(@RequestParam String senderEmail, @RequestParam JSONArray receiversEmails, @RequestParam String subject, @RequestParam String message, @RequestBody MultipartFile[] attachments, @RequestParam String priority) {
         try {
+            String[] receivers = new String[receiversEmails.length()];
+            for(int i = 0; i < receivers.length; i++) {
+                receivers[i] = receiversEmails.getString(i);
+            }
             int integerPriority = emailService.getIntegerPriority(priority);
-            Email email = emailService.createEmail(senderEmail, receiversEmails, subject, message, integerPriority, attachments);
+            Email email = emailService.createEmail(senderEmail, receivers, subject, message, integerPriority, attachments);
             emailService.sendEmail(email);
             return HttpStatus.OK;
 
@@ -229,6 +235,11 @@ public class Controller {
         } catch (Exception fileNotCreated) {
             return HttpStatus.NOT_ACCEPTABLE;
         }
+    }
+
+    @GetMapping("/getContacts")
+    public ArrayList<Contact> getContacts(@RequestParam String emailAddress) {
+        return contactServices.getContacts(emailAddress);
     }
 
 
