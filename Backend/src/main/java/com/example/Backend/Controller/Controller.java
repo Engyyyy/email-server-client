@@ -149,17 +149,12 @@ public class Controller {
     }
 
     @DeleteMapping("/deleteFile")
-    public ArrayList<String> deleteFile(@RequestParam String emailAddress, @RequestParam String fileName) {
+    public HttpStatus deleteFile(@RequestParam String emailAddress, @RequestParam String fileName) {
         try {
             FileManipulation.deleteFile(emailAddress, fileName);
+            return HttpStatus.OK;
         } catch (Exception e) {
-        }
-        try {
-            return FileManipulation.getFileNames(emailAddress);
-        }
-        catch(Exception e) {
-            System.out.println("ERROR in: delete file: user not found");
-            return new ArrayList<>();
+            return HttpStatus.NOT_ACCEPTABLE;
         }
     }
 
@@ -180,9 +175,13 @@ public class Controller {
     }
 
     @DeleteMapping("/deleteEmail")
-    public HttpStatus deleteEmail(@RequestParam String emailAddress, @RequestParam String listName, @RequestParam UUID[] emailsId) {
+    public HttpStatus deleteEmail(@RequestParam String emailAddress, @RequestParam String listName, @RequestParam JSONArray emailsId) {
         try {
-            emailService.bulkDeletion(emailAddress, listName, emailsId);
+            UUID[] ids = new UUID[emailsId.length()];
+            for(int i = 0; i < ids.length; i++) {
+                ids[i] = (UUID) emailsId.get(i);
+            }
+            emailService.bulkDeletion(emailAddress, listName, ids);
             return HttpStatus.OK;
         } catch (Exception e) {
             return HttpStatus.NOT_ACCEPTABLE;
