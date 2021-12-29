@@ -4,6 +4,7 @@ package com.example.Backend.Controller;
 import com.example.Backend.Model.Email.Email;
 import com.example.Backend.Model.UsersList;
 import com.example.Backend.Services.ContactServices;
+import com.example.Backend.Services.Filter.Filter;
 import com.example.Backend.Services.Register.RegisterServices;
 import com.example.Backend.ResponseObjects.ResponseEmail;
 import com.example.Backend.Services.EmailService;
@@ -29,6 +30,8 @@ public class Controller {
     EmailService emailService;
     @Autowired
     ContactServices contactServices;
+    @Autowired
+    Filter filter;
 
     @GetMapping("/login")
     public boolean login(@RequestParam String emailAddress, @RequestParam String password) throws Exception {
@@ -100,8 +103,7 @@ public class Controller {
     public ArrayList<ResponseEmail> getEmails(@RequestParam String emailAddress, @RequestParam String list, @RequestParam String criteria, @RequestParam int pageNumber, @RequestParam int itemsPerPage) {
         try {
             return emailService.getEmails(emailAddress, list, criteria, pageNumber, itemsPerPage);
-        }
-        catch(Exception exception) {
+        } catch (Exception exception) {
             return new ArrayList<>();
         }
     }
@@ -110,8 +112,7 @@ public class Controller {
     public int getLength(@RequestParam String emailAddress, @RequestParam String list) {
         try {
             return emailService.getEmailsLength(emailAddress, list);
-        }
-        catch(Exception exception) {
+        } catch (Exception exception) {
             System.out.println("User Not Found");
             return 0;
         }
@@ -179,6 +180,16 @@ public class Controller {
             return HttpStatus.NOT_ACCEPTABLE;
         }
     }
+    @PostMapping("/createContactAndAddEmails")
+    public HttpStatus createContactAndAddEmails(@RequestParam String name, @RequestParam String userEmailAddress,@RequestParam String[] emailAddresses) {
+        try {
+            UUID contactId = contactServices.createContact(name, userEmailAddress).getId();
+            contactServices.addEmailAddressesToContact(emailAddresses,userEmailAddress,contactId);
+            return HttpStatus.OK;
+        } catch (Exception fileNotCreated) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
 
     @PostMapping("/addEmailAddressesToContact")
     public HttpStatus addEmailAddressesToContact(@RequestParam String[] emailAddresses, @RequestParam String userEmailAddress, @RequestParam UUID contactId) {
@@ -204,6 +215,16 @@ public class Controller {
     public HttpStatus renameContact(@RequestParam String emailAddress, @RequestParam UUID contactId, String newName) {
         try {
             contactServices.renameContact(emailAddress, contactId, newName);
+            return HttpStatus.OK;
+        } catch (Exception fileNotCreated) {
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
+    }
+
+    @PostMapping("/filter")
+    public HttpStatus filter(@RequestParam String emailAddress, @RequestParam String fileName, @RequestParam String criteria) {
+        try {
+            filter.filter(emailAddress, fileName, criteria);
             return HttpStatus.OK;
         } catch (Exception fileNotCreated) {
             return HttpStatus.NOT_ACCEPTABLE;

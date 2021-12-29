@@ -13,12 +13,13 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Component
-public class ContactServices implements ContactServiceI{
+public class ContactServices implements ContactServiceI {
 
-    public void createContact(String name, String emailAddress) throws Exception {
+    public Contact createContact(String name, String emailAddress) throws Exception {
         Contact contact = new Contact(name);
         UsersList.listOfUsers.get(emailAddress).getContacts().put(contact.getId(), contact);
         FileManipulation.update(emailAddress, "contacts");
+        return contact;
     }
 
     public void addEmailAddressesToContact(String[] emailAddresses, String userEmailAddress, UUID contactId) throws Exception {

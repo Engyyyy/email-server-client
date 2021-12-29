@@ -9,6 +9,7 @@ import com.example.Backend.Model.*;
 import com.example.Backend.Services.FileManipulation.FileManipulation;
 import com.example.Backend.Model.Email.Email;
 import com.example.Backend.Model.Users.User;
+import com.example.Backend.Services.Filter.Filter;
 import com.example.Backend.Services.Rearrangments.Arrange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
+
 import static java.lang.Math.min;
+
 import java.util.*;
 
 @Component
@@ -26,6 +29,8 @@ public class EmailService {
 
     @Autowired
     ListFactory listFactory;
+    @Autowired
+    Filter filter;
 
     public Email createEmail(String sender, String[] receivers, String subject, String message, int priority, MultipartFile[] files) throws IOException {
         return new Email(sender, receivers, subject, message, priority, files);
@@ -201,6 +206,7 @@ public class EmailService {
         String emailAddress = email.getHeader().getSenderEmailAddress();
         getUser(emailAddress).getDraft().put(email.getHeader().getId(), email);
         getUser(emailAddress).getAllEmails().put(email.getHeader().getId(), email);
+        filter.checkFilter(email.getHeader().getSenderEmailAddress(), email);
         FileManipulation.update(emailAddress, "draft");
         FileManipulation.update(emailAddress, "allEmails");
     }
@@ -212,17 +218,16 @@ public class EmailService {
             User sender = UsersList.listOfUsers.get(email.getHeader().getSenderEmailAddress());
             sender.getAllEmails().put(email.getHeader().getId(), email);
             sender.getSentEmails().put(email.getHeader().getId(), email);
-//            UUID id1 = email.getHeader().getId();
-//            System.out.println(email.getHeader().getSubject());
-           // sender.getAllEmails().get(email.getHeader().getId()).getBody().
             FileManipulation.update(email.getHeader().getSenderEmailAddress(), "allEmails");
             FileManipulation.update(email.getHeader().getSenderEmailAddress(), "sentEmails");
             String[] receiversEmailAddresses = email.getHeader().getReceiversEmailAddresses();
+            filter.checkFilter(email.getHeader().getSenderEmailAddress(), email);
             for (int i = 0; i < receiversEmailAddresses.length; i++) {
                 User receiver = usersList.getUser(receiversEmailAddresses[i]);
                 if (FileManipulation.validateUser(receiver.getEmailAddress())) {
                     receiver.getAllEmails().put(email.getHeader().getId(), email);
                     receiver.getReceivedEmails().put(email.getHeader().getId(), email);
+                    filter.checkFilter(receiver.getEmailAddress(), email);
                     FileManipulation.update(email.getHeader().getReceiversEmailAddresses()[i], "allEmails");
                     FileManipulation.update(email.getHeader().getReceiversEmailAddresses()[i], "receivedEmails");
                 }
@@ -231,17 +236,15 @@ public class EmailService {
     }
 
     private Email[] sortEmails(String emailAddress, String list, String criteria) throws Exception {
-        if(!FileManipulation.validateUser(emailAddress)) {
+        if (!FileManipulation.validateUser(emailAddress)) {
             System.out.println("User Not Found");
             throw new Exception();
         }
-        if(criteria.equals("timestamp")) {
+        if (criteria.equals("timestamp")) {
             return Arrange.sortByTimestamp(listFactory.getList(list, emailAddress));
-        }
-        else if(criteria.equals("priority")) {
+        } else if (criteria.equals("priority")) {
             return Arrange.sortByPriority(listFactory.getList(list, emailAddress));
-        }
-        else {
+        } else {
             System.out.println("No Such Sorting Criteria");
             return new Email[0];
         }
@@ -250,9 +253,9 @@ public class EmailService {
     public ArrayList<ResponseEmail> getEmails(String emailAddress, String list, String criteria, int pageNumber, int itemsPerPage) throws Exception {
         Email[] emails = sortEmails(emailAddress, list, criteria);
         ArrayList<ResponseEmail> requiredEmails = new ArrayList<>();
-        int start = ((pageNumber-1)*itemsPerPage);
+        int start = ((pageNumber - 1) * itemsPerPage);
         System.out.println(itemsPerPage);
-        for(int i = start; i < min(emails.length, start + itemsPerPage); i++) {
+        for (int i = start; i < min(emails.length, start + itemsPerPage); i++) {
             UUID id = emails[i].getHeader().getId();
             String senders = emails[i].getHeader().getSenderEmailAddress();
             String[] receivers = emails[i].getHeader().getReceiversEmailAddresses();
@@ -269,15 +272,5 @@ public class EmailService {
     public int getEmailsLength(String emailAddress, String list) throws Exception {
         return listFactory.getList(list, emailAddress).keySet().size();
     }
-
-
-//    public void deleteEmail(int id, String listName, String emailAdress) {
-//        ArrayList<Email> list = listFactory.getList(listName, emailAdress);
-//        if (!listName.equals("trash")) {
-//            usersList.getListOfUsers().get(emailAdress).getTrash().add(list.get(id));
-//        }
-//        list.remove(id);
-//    }
-
 
 }
